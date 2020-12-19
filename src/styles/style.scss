@@ -19,6 +19,8 @@ body {
   background: url("../assets/bg.jpg");
   color: white;
 
+  font-family: Helvetica, Arial, -apple-system, BlinkMacSystemFont, "Segoe UI", 
+  Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   font-size: 1.4rem;
   // border: 5px solid red;
 }
@@ -42,6 +44,10 @@ main {
   font-size: 2.5rem;
   text-align: center;
 }
+
+  [class$="__stats--adaptive"] {
+    display: none;
+   }
 
 .cases__title, .recovered__title, .active__title, .deaths__title {
   text-transform: uppercase;
@@ -125,6 +131,11 @@ main {
 
 .visual-data {
   .map {
+    height: calc(100vh - 8rem);
+
+    #chartdiv {
+      height: inherit;
+    }
   }
   .graph {
   }
@@ -222,10 +233,10 @@ main {
   flex-direction: row;
 }
 .switch__text {
-  width: 5.5rem;
+  width: 5.7rem;
   line-height: 2.4rem;
   vertical-align: baseline;
-  margin: 0.5rem;
+  margin: 0.5rem 0;
   text-align: left;
   &:first-of-type {
     text-align: right;
@@ -298,5 +309,102 @@ footer {
   height: 8rem;
   padding: 0.7rem;
   .copyright {
+  }
+}
+
+@media (max-height: 900px) {
+  [class$="__data"] {
+  font-size: 2.5rem;
+  text-align: center;
+}
+  [class$="__title"],
+  .date-update__date {
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  .world .stats__title, .countries .country {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-height: 650px) {
+    [class$="__title"],
+  .date-update__date {
+    font-size: 1.4rem;
+    text-align: center;
+  }
+
+  main,  .world, .visual-data .map, .countries {
+    height: calc(100vh - 3rem);
+  }
+  footer {
+    height: 3rem;
+  }
+}
+
+@media (max-width: 1350px) {
+  main {
+    grid-template-columns: 5fr 1fr;
+    grid-template-rows: 30vh 35vh auto;
+    .visual-data {
+      grid-row: 1/4;
+    }
+    .world {
+      grid-row: 1/2;
+      height: 25vh;
+      .world__stats > div:not(:first-of-type) {
+        display: none;
+      }
+    }
+    .countries {
+      grid-row: 2/4;
+      display: flex;
+      flex-direction: column;
+      height: calc(72vh - 3rem);
+      padding: 0.7rem;
+      .countries__stats > div:not(:first-of-type) {
+        display: none;
+      }
+      .countries__stats {
+        padding: 0rem !important;
+        height: 15rem;
+      }
+      .countries__list {
+        grid-row: 3/4;
+        display: block;
+        margin-top: 0.8rem;
+        // height: auto;
+      }
+    }
+  }
+  .world {
+    grid-column: 2/3;
+  }
+
+  [class$="__stats--adaptive"] {
+    display: block;
+    font-size: 1.4rem;
+    text-align: center;
+  }
+
+    .world .stats__title, .countries .country {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 900px) { 
+  // добавить ссылку-хвостик на карту
+  .map {
+    display:none;
+    }
+  main {
+    grid-template-columns: 1fr;
+    &>* {
+      grid-column: 1/2 !important;
+    }
+  }
+  .countries__list {
+    text-align: center;
   }
 }

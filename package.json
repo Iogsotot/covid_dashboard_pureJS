@@ -1,14 +1,14 @@
 {
-  "name": "rs-css",
+  "name": "covid_dashboard",
   "version": "1.0.0",
   "description": "* Vanilla js\r   * SCSS\r    * Webpack\r   * Eslint",
   "private": true,
   "dependencies": {
-    "highlight.js": "^10.4.0",
+    "@amcharts/amcharts4": "^4.10.13",
+    "@amcharts/amcharts4-fonts": "^4.0.1",
+    "@amcharts/amcharts4-geodata": "^4.1.19",
     "@babel/polyfill": "^7.8.3",
-    "normalize.css": "^8.0.1",
-    "core-js": "^3.4.7",
-    "regenerator-runtime": "^0.13.3"
+    "core-js": "^3.4.7"
   },
   "devDependencies": {
     "@babel/core": "^7.8.3",
@@ -60,17 +60,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Iogsotot/css_game.git"
+    "url": "git+https://github.com/Iogsotot/covid_dashboard_pureJS.git"
   },
   "keywords": [
-    "css",
-    "game",
-    "scss"
+    "covid",
+    "dashboard"
   ],
   "author": "Anna Justus (anna.justus.js@gmail.com)",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Iogsotot/css_game/issues"
+    "url": "https://github.com/Iogsotot/covid_dashboard_pureJS/issues"
   },
-  "homepage": "https://github.com/Iogsotot/css_game#readme"
+  "homepage": "https://github.com/Iogsotot/covid_dashboard_pureJS#readme"
 }

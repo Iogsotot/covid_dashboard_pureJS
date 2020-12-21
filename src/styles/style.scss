@@ -346,19 +346,20 @@ footer {
 @media (max-width: 1350px) {
   main {
     grid-template-columns: 5fr 1fr;
-    grid-template-rows: 30vh 35vh auto;
+    grid-template-rows: 16rem auto;
     .visual-data {
-      grid-row: 1/4;
+      grid-row: 1/3;
     }
     .world {
       grid-row: 1/2;
-      height: 25vh;
+      // height: 25vh;
+      height: auto;
       .world__stats > div:not(:first-of-type) {
         display: none;
       }
     }
     .countries {
-      grid-row: 2/4;
+      grid-row: 2/3;
       display: flex;
       flex-direction: column;
       height: calc(72vh - 3rem);
@@ -367,11 +368,12 @@ footer {
         display: none;
       }
       .countries__stats {
+        grid-template-rows: 1fr 1fr;
         padding: 0rem !important;
         height: 15rem;
       }
       .countries__list {
-        grid-row: 3/4;
+        // grid-row: 3/4;
         display: block;
         margin-top: 0.8rem;
         // height: auto;

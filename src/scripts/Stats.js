@@ -6,7 +6,8 @@ export default class Stats {
     this.urls = {
       perCountryData: 'https://corona.lmao.ninja/v2/countries?sort=cases',
       totalData: 'https://corona.lmao.ninja/v2/all',
-      allCountriesTimeline: 'https://disease.sh/v3/covid-19/historical?lastdays=all',
+      totalTimeline: 'https://disease.sh/v3/covid-19/historical/all?lastdays=all',
+      worldTimeline: 'https://disease.sh/v3/covid-19/historical?lastdays=all',
     };
   }
 
@@ -93,8 +94,14 @@ export default class Stats {
     return TotalCovidData;
   }
 
-  async getTotalTimeline(countryName = null) {
-    const url = this.urls.allCountriesTimeline;
+  async getTotalTimeline() {
+    const url = this.urls.totalTimeline;
+    const covidData = await this.getDataFromUrl(url);
+    return covidData
+  }
+
+  async getWorldTimeline(countryName = null) {
+    const url = this.urls.worldTimeline;
     const covidData = await this.getDataFromUrl(url);
 
     const countries = [];
@@ -106,15 +113,15 @@ export default class Stats {
       return result;
     }
 
-    let allCountriesTimeline = {
+    let worldTimeline = {
       covidData,
       countries: getCountries(),
     };
     if (countryName) {
       const countryIndex = getCountries().indexOf(countryName); // если нет в массиве, то -1
 
-      allCountriesTimeline = {
-        ...allCountriesTimeline,
+      worldTimeline = {
+        ...worldTimeline,
         ...{
           countryName: covidData[countryIndex].country,
           cases: covidData[countryIndex].timeline.cases,
@@ -126,13 +133,14 @@ export default class Stats {
     }
     // weight = 3.5 MB
     // return covidData;
-    return allCountriesTimeline;
+    return worldTimeline;
   }
 
   async prepareDataForMap() {
     const totalData = await this.prepareTotalDataForMap();
-    const timelineData = await this.prepareAllCountriesTimelineForMap();
-    return [totalData, timelineData];
+    const totalTimelineData = await this.prepareTotalTimelineForMap();
+    const worldTimelineData = await this.prepareWorldTimelineForMap();
+    return [totalData, totalTimelineData, worldTimelineData];
   }
 
   async prepareTotalDataForMap() {
@@ -140,24 +148,87 @@ export default class Stats {
     return this.totalData;
   }
 
-  async prepareAllCountriesTimelineForMap() {
-    const allCountriesTimelineRawData = await this.getTotalTimeline();
-    // this.allCountriesTimeline.covidData = this.allCountriesTimeline.covidData.filter((element)
-    // => element.province == null)
-    const result = allCountriesTimelineRawData.covidData.reduce((countries, element) => {
+  async prepareTotalTimelineForMap() {
+    const totalTimeline = await this.getTotalTimeline();
+    let result = [];
+    Object.keys(totalTimeline.cases).forEach((key) => {
+      result.push(
+        {
+          confirmed: totalTimeline.cases[key],
+          recovered: totalTimeline.recovered[key],
+          deaths: totalTimeline.deaths[key],
+          date: key
+        }
+      )
+    })
+    this.totalTimeline = result;
+    return this.totalTimeline;
+  }
+
+  async prepareWorldTimelineForMap() {
+    const worldTimelineRawData = await this.getWorldTimeline();
+    const countriesWithProvincesCombined = worldTimelineRawData.covidData.reduce((countries, element) => {
       if (!countries[element.country]) {
         countries[element.country] = element;
+        Object.keys(element.timeline.cases).forEach((key) => {
+          countries[element.country][key] = {
+            cases: countries[element.country].timeline.cases[key],
+            recovered: countries[element.country].timeline.recovered[key],
+            deaths: countries[element.country].timeline.deaths[key]
+          }
+        });
         delete countries[element.country].province;
       } else {
         Object.keys(element.timeline.cases).forEach((key) => {
-          countries[element.country].timeline.cases[key] += element.timeline.cases[key];
-          countries[element.country].timeline.recovered[key] += element.timeline.recovered[key];
-          countries[element.country].timeline.deaths[key] += element.timeline.deaths[key];
+          countries[element.country][key].cases += element.timeline.cases[key];
+          countries[element.country][key].recovered += element.timeline.recovered[key];
+          countries[element.country][key].deaths += element.timeline.deaths[key];
         });
       }
+      // Object.keys(element.timeline.cases).forEach((key) => {
+      //   countries[element.country][key] = {
+      //     cases: countries[element.country].timeline.cases[key],
+      //     recovered: countries[element.country].timeline.recovered[key],
+      //     deaths: countries[element.country].timeline.deaths[key]
+      //   }
+      // });
+      delete countries[element.country].timeline
+      delete countries[element.country].country
       return countries;
     }, {});
 
-    this.allCountriesTimeline = result;
+
+    let result = {};
+
+    Object.entries(isoCountries).forEach(([country, iso2]) => {
+      if (countriesWithProvincesCombined[country]) {
+        Object.keys(countriesWithProvincesCombined[country]).forEach((key) => {
+          if (!result[key]) {
+            result[key] = {
+              "date": key,
+              "list": [
+                {
+                  confirmed: countriesWithProvincesCombined[country][key].cases,
+                  deaths: countriesWithProvincesCombined[country][key].deaths,
+                  recovered: countriesWithProvincesCombined[country][key].recovered,
+                  id: iso2
+                }
+              ]
+            }
+          } else {
+            result[key]["list"].push(
+              {
+                confirmed: countriesWithProvincesCombined[country][key].cases,
+                deaths: countriesWithProvincesCombined[country][key].deaths,
+                recovered: countriesWithProvincesCombined[country][key].recovered,
+                id: iso2
+              }
+            )
+          }
+        })
+      }
+
+    });
+    return Object.values(result);
   }
 }

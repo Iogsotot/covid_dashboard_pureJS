@@ -15,11 +15,11 @@ export default class App {
 
   async init() {
     const data = await this.stats.prepareDataForMap();
-    [this.totalData, this.allCountriesTimeline] = data;
-    this.totalData = await this.stats.getTotalStats();
-    this.allCountriesTimeline = await this.stats.getTotalTimeline();
-    this.map = new Map(this.totalData, this.allCountriesTimeline);
-    // console.log(this.allCountriesTimeline.covidData);
+    [this.totalData, this.totalTimeline, this.worldTimeline] = data;
+    this.map = new Map(this.totalTimeline, this.worldTimeline);
+    // this.totalData = await this.stats.getTotalStats();
+    // this.worldTimeline = await this.stats.getTotalTimeline();
+    // console.log(this.worldTimeline.covidData);
     // console.log(this.totalData);
     this.addWorldStats();
     this.worldStatsUpdate();

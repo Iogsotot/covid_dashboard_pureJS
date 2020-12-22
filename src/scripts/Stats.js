@@ -4,7 +4,7 @@ import isoCountries from './ISOCountries';
 export default class Stats {
   constructor() {
     this.urls = {
-      perCountryData: 'https://corona.lmao.ninja/v2/countries',
+      perCountryData: 'https://corona.lmao.ninja/v2/countries?sort=cases',
       totalData: 'https://corona.lmao.ninja/v2/all',
       allCountriesTimeline: 'https://disease.sh/v3/covid-19/historical?lastdays=all',
     };
@@ -141,10 +141,10 @@ export default class Stats {
   }
 
   async prepareAllCountriesTimelineForMap() {
-    this.allCountriesTimeline = await this.getTotalTimeline();
+    const allCountriesTimelineRawData = await this.getTotalTimeline();
     // this.allCountriesTimeline.covidData = this.allCountriesTimeline.covidData.filter((element)
     // => element.province == null)
-    const result = this.allCountriesTimeline.covidData.reduce((countries, element) => {
+    const result = allCountriesTimelineRawData.covidData.reduce((countries, element) => {
       if (!countries[element.country]) {
         countries[element.country] = element;
         delete countries[element.country].province;
@@ -158,11 +158,6 @@ export default class Stats {
       return countries;
     }, {});
 
-    // console.log(this.allCountriesTimeline.covidData);
-    // console.log(result);
-
-    // console.log(this.allCountriesTimeline.covidData.filter((element) => 
-    // element.country == "Australia"));
-    // console.log(result["Australia"]);
+    this.allCountriesTimeline = result;
   }
 }

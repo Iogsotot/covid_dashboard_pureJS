@@ -5,6 +5,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Covid Dashboard</title>
+  <!-- <link rel="shortcut icon" href="../src/assets/favicon.png" type="image/x-icon"> -->
+  <!-- <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon"> -->
+  <link rel="shortcut icon" href="../src/assets/favicon.png" type="image/png">
 </head>
 
 <body>
@@ -16,32 +19,32 @@
           <h2 class="stats__title">
             World
           </h2>
-            <div class="switches">
-              <div class="switch--time-stats">
-                <div class="switch__text">All</div>
-                <label class="switch">
-                 
-                  <input type="checkbox">
-                  <span class="slider round"></span>
-                </label>
-                <div class="switch__text">Today</div>
-              </div>
-              <div class="switch--type-stats">
-                <div class="switch__text">Absolute</div> 
-                <label class="switch">
-                  <input type="checkbox">
-                  <span class="slider round"></span>
-                </label>
-                <div class="switch__text">Per 100k</div>
-              </div>
+          <div class="switches">
+            <div class="switch--time-stats">
+              <div class="switch__text">All</div>
+              <label class="switch">
+
+                <input type="checkbox">
+                <span class="slider round"></span>
+              </label>
+              <div class="switch__text">Today</div>
             </div>
-            <div class="world__stats--adaptive">
+            <div class="switch--type-stats">
+              <div class="switch__text">Absolute</div>
+              <label class="switch">
+                <input type="checkbox">
+                <span class="slider round"></span>
+              </label>
+              <div class="switch__text">Per 100k</div>
+            </div>
+          </div>
+          <div class="world__stats--adaptive">
             <div class="cases--adaptive">cases: 456545 </div>
             <div class="recovered--adaptive">recovered: 4422 </div>
             <div class="deaths--adaptive">deaths: 545445 </div>
-         </div>
+          </div>
         </div>
-        
+
         <div class="date-update">
           <h3 class="date-update__title">Last update</h3>
           <div class="date-update__date">19/12/2020</div>
@@ -72,26 +75,26 @@
 
     <section class="visual-data">
       <div class="map">
-            <div id="chartdiv"></div>
+        <div id="chartdiv"></div>
       </div>
       <div class="graph"></div>
     </section>
     <section class="countries">
       <div class="countries__stats">
-        <div class="country"> 
-          Italy 
+        <div class="country">
+          Italy
           <div class="switches">
             <div class="switch--time-stats">
               <div class="switch__text">All</div>
               <label class="switch">
-               
+
                 <input type="checkbox">
                 <span class="slider round"></span>
               </label>
               <div class="switch__text">Today</div>
             </div>
             <div class="switch--type-stats">
-              <div class="switch__text">Absolute</div> 
+              <div class="switch__text">Absolute</div>
               <label class="switch">
                 <input type="checkbox">
                 <span class="slider round"></span>
@@ -99,11 +102,11 @@
               <div class="switch__text">Per 100k</div>
             </div>
           </div>
-         <div class="country__stats--adaptive">
+          <div class="country__stats--adaptive">
             <div class="cases--adaptive">cases: 456545 </div>
             <div class="recovered--adaptive">recovered: 4422 </div>
             <div class="deaths--adaptive">deaths: 545445 </div>
-         </div>
+          </div>
         </div>
         <div class="cases">
           <div class="cases__title">Cases</div>
@@ -122,208 +125,19 @@
           <div class="deaths__data">2151545</div>
         </div>
       </div>
-      <ul class="countries__list">
+
+      <div class="countries__list__block">
         <div class="list__title">
           Cases by country
         </div>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-        <li class="countries__item"><span class="country__name">Country name</span> <span class="country__cases">15645651</span></li>
-      </ul>
+        <ul class="countries__list" id="countriesList">
+        </ul>
+        <div class="arrows">
+          <div class="arrow--left arrow" id="arrowLeft"></div><div class="arrow--right arrow" id="arrowRight"></div>
+        </div>
+        <div class="data-name" id="countriesListDataName">All cases absolute</div>
+      </div>
+
     </section>
   </main>
   <footer>

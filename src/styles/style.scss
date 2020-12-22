@@ -100,36 +100,6 @@ main {
   .stats__title {
     font-size: 6rem;
   }
-  .date-update {
-    .date-update__title {
-    }
-    .date-update__date {
-    }
-  }
-  .cases {
-    .cases__title {
-    }
-    .cases__data {
-    }
-  }
-  .active {
-    .active__title {
-    }
-    .active__data {
-    }
-  }
-  .recovered {
-    .recovered__title {
-    }
-    .recovered__data {
-    }
-  }
-  .deaths {
-    .deaths__title {
-    }
-    .deaths__data {
-    }
-  }
 }
 
 .visual-data {
@@ -163,6 +133,8 @@ main {
     .current-country-name {
       max-width: 26rem;
       font-size: 2.3rem;
+      margin: 0 auto;
+      text-align: center;
     }
     & > * {
       display: flex;
@@ -184,82 +156,83 @@ main {
   .cases {
     // color: ;
   }
-  .countries__list__block {
-    height: calc(100vh - 9.4rem);
-    display: flex;
-    flex-direction: column;
-    width: 32rem;
-    padding: 0.7rem;
-    margin: 0.7rem 0;
+}
 
-    border: 1px solid $block-border;
-    background: $block-bg;
+.countries__list__block {
+  height: calc(100vh - 9.4rem);
+  display: flex;
+  flex-direction: column;
+  width: 32rem;
+  padding: 0.7rem;
+  margin: 0.7rem 0;
 
-    .countries__list {
-      overflow-y: scroll;
-      list-style: none;
-      // li {
-      //   // overflow-x: hidden;
-      // }
-      li:nth-of-type(odd) {
-        background-color: rgba(0, 0, 0, 0.2);
-      }
-      .flag {
-        float: right;
-        margin-right: 0.5rem;
-      }
+  border: 1px solid $block-border;
+  background: $block-bg;
+
+  .countries__list {
+    overflow-y: scroll;
+    list-style: none;
+    // li {
+    //   // overflow-x: hidden;
+    // }
+    li:nth-of-type(odd) {
+      background-color: rgba(0, 0, 0, 0.2);
     }
-    li .country__stats span {
-      display: none;
-      font-weight: 700;
-      &.show {
-        display: inline-block;
-      }
+    .flag {
+      float: right;
+      margin-right: 0.5rem;
     }
-    .country__name {
-      flex-shrink: 0;
-      font-weight: normal;
-    }
-    .country__name {
+  }
+  li .country__stats span {
+    display: none;
+    font-weight: 700;
+    &.show {
       display: inline-block;
     }
-    [class^="country__active"] {
-      color: coral;
-    }
-    [class^="country__recovered"] {
-      color: #43c043;
-    }
-    [class^="country__deaths"] {
-      color: red;
-    }
-    .data-name {
-      margin-top: 0.5rem;
-      font-size: 1.6rem;
-      text-align: center;
-    }
-    .arrows {
-      flex-shrink: 0;
-      display: flex;
-      flex-direction: row;
-      // justify-content: space-between;
-      justify-content: space-evenly;
-      padding-top: 0.8rem;
-      height: 3rem;
-    }
+  }
+  .country__name {
+    flex-shrink: 0;
+    font-weight: normal;
+  }
+  .country__name {
+    display: inline-block;
+  }
+  [class^="country__active"] {
+    color: coral;
+  }
+  [class^="country__recovered"] {
+    color: #43c043;
+  }
+  [class^="country__deaths"] {
+    color: red;
+  }
+  .data-name {
+    margin-top: 0.5rem;
+    font-size: 1.6rem;
+    text-align: center;
+  }
+  .arrows {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: row;
+    // justify-content: space-between;
+    justify-content: space-evenly;
+    padding-top: 0.8rem;
+    height: 3rem;
+  }
 
-    .arrow {
-      width: 1.8rem;
-      height: 1.8rem;
+  .arrow {
+    width: 1.8rem;
+    height: 1.8rem;
 
-      border-top: 2px solid $block-border;
-      border-left: 2px solid $block-border;
-      transform: rotate(-45deg);
+    border-top: 2px solid $block-border;
+    border-left: 2px solid $block-border;
+    transform: rotate(-45deg);
 
-      cursor: pointer;
-    }
-    .arrow--right {
-      transform: rotate(135deg);
-    }
+    cursor: pointer;
+  }
+  .arrow--right {
+    transform: rotate(135deg);
   }
 }
 
@@ -387,13 +360,13 @@ footer {
     font-weight: bold;
   }
 
-  main,
-  .world,
-  .visual-data .map,   
-  .countries {
-    height: calc(100vh - 3rem);
-  }
-  .countries .countries__list__block {
+  // main,
+  // .world,
+  // .visual-data .map,
+  // .countries {
+  //   // height: calc(100vh - 3rem);
+  // }
+  .countries__list__block {
     height: calc(100vh - 4.45rem);
   }
   footer {
@@ -412,29 +385,36 @@ footer {
       grid-row: 1/2;
       // height: 25vh;
       height: auto;
+      .world__stats,
+      .countries__stats {
+        height: auto;
+        display: block;
+      }
       .world__stats > div:not(:first-of-type) {
         display: none;
+        height: 0;
+        width: 0;
       }
     }
     .countries {
       grid-row: 2/3;
       display: flex;
       flex-direction: column;
-      height: calc(72vh - 3rem);
-      padding: 0.7rem;
+      padding: 0 0.7rem 0.7rem;
       .countries__stats > div:not(:first-of-type) {
         display: none;
+        height: 0;
+        width: 0;
       }
       .countries__stats {
-        grid-template-rows: 1fr 1fr;
+        grid-template-rows: 1fr;
         padding: 0rem !important;
-        height: 15rem;
       }
-      .countries__list {
-        // grid-row: 3/4;
-        display: block;
-        margin-top: 0.8rem;
-      }
+    }
+    .countries__list {
+      // grid-row: 3/4;
+      display: block;
+      margin-top: 0.8rem;
     }
   }
   .world {
@@ -455,16 +435,24 @@ footer {
 
 @media (max-width: 900px) {
   // добавить ссылку-хвостик на карту
-  .map {
+  .visual-data {
+    height: 0;
+    width: 0;
     display: none;
   }
   main {
-    grid-template-columns: 1fr;
-    & > * {
-      grid-column: 1/2 !important;
+    display: flex;
+    flex-direction: column;
+    .world,
+    .countries,
+    .countries__list__block {
+      // display: block;
+      height: auto;
+      width: auto;
     }
-  }
-  .countries__list {
-    text-align: center;
+    .countries__list__block {
+      margin: 0 0.7rem 0.7rem;
+      overflow-y: scroll;
+    }
   }
 }

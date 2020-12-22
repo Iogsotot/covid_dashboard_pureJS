@@ -25,5 +25,6 @@ module.exports = {
         functions: false,
       }],
     'import/extensions': 'warn',
+    'max-len': ['error', { code: 120 }],
   },
 };

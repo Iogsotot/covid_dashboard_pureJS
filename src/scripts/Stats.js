@@ -97,7 +97,7 @@ export default class Stats {
   async getTotalTimeline() {
     const url = this.urls.totalTimeline;
     const covidData = await this.getDataFromUrl(url);
-    return covidData
+    return covidData;
   }
 
   async getWorldTimeline(countryName = null) {
@@ -150,17 +150,17 @@ export default class Stats {
 
   async prepareTotalTimelineForMap() {
     const totalTimeline = await this.getTotalTimeline();
-    let result = [];
+    const result = [];
     Object.keys(totalTimeline.cases).forEach((key) => {
       result.push(
         {
           confirmed: totalTimeline.cases[key],
           recovered: totalTimeline.recovered[key],
           deaths: totalTimeline.deaths[key],
-          date: key
-        }
-      )
-    })
+          date: key,
+        },
+      );
+    });
     this.totalTimeline = result;
     return this.totalTimeline;
   }
@@ -174,8 +174,8 @@ export default class Stats {
           countries[element.country][key] = {
             cases: countries[element.country].timeline.cases[key],
             recovered: countries[element.country].timeline.recovered[key],
-            deaths: countries[element.country].timeline.deaths[key]
-          }
+            deaths: countries[element.country].timeline.deaths[key],
+          };
         });
         delete countries[element.country].province;
       } else {
@@ -192,42 +192,40 @@ export default class Stats {
       //     deaths: countries[element.country].timeline.deaths[key]
       //   }
       // });
-      delete countries[element.country].timeline
-      delete countries[element.country].country
+      delete countries[element.country].timeline;
+      delete countries[element.country].country;
       return countries;
     }, {});
 
-
-    let result = {};
+    const result = {};
 
     Object.entries(isoCountries).forEach(([country, iso2]) => {
       if (countriesWithProvincesCombined[country]) {
         Object.keys(countriesWithProvincesCombined[country]).forEach((key) => {
           if (!result[key]) {
             result[key] = {
-              "date": key,
-              "list": [
+              date: key,
+              list: [
                 {
                   confirmed: countriesWithProvincesCombined[country][key].cases,
                   deaths: countriesWithProvincesCombined[country][key].deaths,
                   recovered: countriesWithProvincesCombined[country][key].recovered,
-                  id: iso2
-                }
-              ]
-            }
+                  id: iso2,
+                },
+              ],
+            };
           } else {
-            result[key]["list"].push(
+            result[key].list.push(
               {
                 confirmed: countriesWithProvincesCombined[country][key].cases,
                 deaths: countriesWithProvincesCombined[country][key].deaths,
                 recovered: countriesWithProvincesCombined[country][key].recovered,
-                id: iso2
-              }
-            )
+                id: iso2,
+              },
+            );
           }
-        })
+        });
       }
-
     });
     return Object.values(result);
   }

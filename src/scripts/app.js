@@ -143,40 +143,49 @@ export default class App {
     const worldDeathsEl = document.querySelector('#worldDeaths');
     const worldActiveEl = document.querySelector('#worldActive');
     const worldRecoveredEl = document.querySelector('#worldRecovered');
-
-    // worldCasesEl.innerText = '89898';
+    const worldCasesMiniEl = document.querySelector('#worldCasesMini');
+    const worldDeathsMiniEl = document.querySelector('#worldDeathsMini');
+    const worldRecoveredMiniEl = document.querySelector('#worldRecoveredMini');
   
     // если чекбокc time checked то (today) && чекбокс type !checked то (Absolute)
     if (this.worldTimeToggleEl.checked && !this.worldTypeToggleEl.checked) {
-      // worldCasesEl.innerText = 'today Abs';
       worldCasesEl.innerText = this.totalData.todayCases;
+      worldCasesMiniEl.innerText = this.totalData.todayCases;
       worldDeathsEl.innerText = this.totalData.todayDeaths;
+      worldDeathsMiniEl.innerText = this.totalData.todayDeaths;
       worldActiveEl.innerText = 'no data for this parameter for today';
       worldRecoveredEl.innerText = this.totalData.todayRecovered;
+      worldRecoveredMiniEl.innerText = this.totalData.todayRecovered;
     }
     // если чекбокс time !checked (All) && чекбокс type !checked то (Absolute)
     if (!this.worldTimeToggleEl.checked && !this.worldTypeToggleEl.checked) {
-      // worldCasesEl.innerText = 'All Abs';
       worldCasesEl.innerText = this.totalData.cases;
+      worldCasesMiniEl.innerText = this.totalData.cases;
       worldDeathsEl.innerText = this.totalData.deaths;
+      worldDeathsMiniEl.innerText = this.totalData.deaths;
       worldActiveEl.innerText = this.totalData.active;
       worldRecoveredEl.innerText = this.totalData.recovered;
+      worldRecoveredMiniEl.innerText = this.totalData.recovered;
     }
     // если чекбокс time checked (All) && чекбокс type checked то (Per100)
     if (!this.worldTimeToggleEl.checked && this.worldTypeToggleEl.checked) {
-      // worldCasesEl.innerText = 'All per100';
       worldCasesEl.innerText = this.totalData.casesPerOneHundredThousand;
+      worldCasesMiniEl.innerText = this.totalData.casesPerOneHundredThousand;
       worldDeathsEl.innerText = this.totalData.deathsPerOneHundredThousand;
+      worldDeathsMiniEl.innerText = this.totalData.deathsPerOneHundredThousand;
       worldActiveEl.innerText = this.totalData.activePerOneHundredThousand;
       worldRecoveredEl.innerText = this.totalData.recoveredPerOneHundredThousand;
+      worldRecoveredMiniEl.innerText = this.totalData.recoveredPerOneHundredThousand;
     }
     // если чекбокс time checked (today) && чекбокс type checked то (Per100)
     if (this.worldTimeToggleEl.checked && this.worldTypeToggleEl.checked) {
-      // worldCasesEl.innerText = 'today per100';
       worldCasesEl.innerText = this.totalData.todayCasesPerOneHundredThousand;
+      worldCasesMiniEl.innerText = this.totalData.todayCasesPerOneHundredThousand;
       worldDeathsEl.innerText = this.totalData.todayDeathsPerOneHundredThousand;
+      worldDeathsMiniEl.innerText = this.totalData.todayDeathsPerOneHundredThousand;
       worldActiveEl.innerText = 'no data for this parameter for today';
       worldRecoveredEl.innerText = this.totalData.todayRecoveredPerOneHundredThousand;
+      worldRecoveredMiniEl.innerText = this.totalData.todayRecoveredPerOneHundredThousand;
     }
   }
 

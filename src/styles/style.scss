@@ -188,7 +188,7 @@ main {
     height: calc(100vh - 9.4rem);
     display: flex;
     flex-direction: column;
-    min-width: max-content;
+    width: 32rem;
     padding: 0.7rem;
     margin: 0.7rem 0;
 
@@ -198,20 +198,29 @@ main {
     .countries__list {
       overflow-y: scroll;
       list-style: none;
+      // li {
+      //   // overflow-x: hidden;
+      // }
       li:nth-of-type(odd) {
         background-color: rgba(0, 0, 0, 0.2);
       }
+      .flag {
+        float: right;
+        margin-right: 0.5rem;
+      }
     }
-    li span {
+    li .country__stats span {
       display: none;
       font-weight: 700;
+      &.show {
+        display: inline-block;
+      }
     }
     .country__name {
       flex-shrink: 0;
       font-weight: normal;
     }
-    .country__name,
-    .show {
+    .country__name {
       display: inline-block;
     }
     [class^="country__active"] {

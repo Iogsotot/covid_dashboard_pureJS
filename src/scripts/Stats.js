@@ -69,13 +69,16 @@ export default class Stats {
     const covidData = await this.getDataFromUrl(url);
     const TotalCovidData = {
       total: covidData,
+      active: covidData.active,
       cases: covidData.cases,
       deaths: covidData.deaths,
       recovered: covidData.recovered,
       casesPerOneHundredThousand: Math.round(covidData.casesPerOneMillion / 10),
       deathsPerOneHundredThousand: Math.round(covidData.deathsPerOneMillion / 10),
       recoveredPerOneHundredThousand: Math.round(covidData.recoveredPerOneMillion / 10),
+      activePerOneHundredThousand: Math.round(covidData.activePerOneMillion / 10),
       todayCases: covidData.todayCases,
+      todayActive: covidData.todayActive,
       todayDeaths: covidData.todayDeaths,
       todayRecovered: covidData.todayRecovered,
       todayCasesPerOneHundredThousand: Math.round((covidData.todayCases
@@ -139,6 +142,27 @@ export default class Stats {
 
   async prepareAllCountriesTimelineForMap() {
     this.allCountriesTimeline = await this.getTotalTimeline();
-    // this.allCountriesTimeline.countries = this.allCountriesTimeline.countries.map();
+    // this.allCountriesTimeline.covidData = this.allCountriesTimeline.covidData.filter((element)
+    // => element.province == null)
+    const result = this.allCountriesTimeline.covidData.reduce((countries, element) => {
+      if (!countries[element.country]) {
+        countries[element.country] = element;
+        delete countries[element.country].province;
+      } else {
+        Object.keys(element.timeline.cases).forEach((key) => {
+          countries[element.country].timeline.cases[key] += element.timeline.cases[key];
+          countries[element.country].timeline.recovered[key] += element.timeline.recovered[key];
+          countries[element.country].timeline.deaths[key] += element.timeline.deaths[key];
+        });
+      }
+      return countries;
+    }, {});
+
+    // console.log(this.allCountriesTimeline.covidData);
+    // console.log(result);
+
+    // console.log(this.allCountriesTimeline.covidData.filter((element) => 
+    // element.country == "Australia"));
+    // console.log(result["Australia"]);
   }
 }

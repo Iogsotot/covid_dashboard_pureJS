@@ -4,6 +4,7 @@ import isoCountries from './ISOCountries';
 
 import Stats from './Stats';
 import Map from './Map';
+// import { for } from 'core-js/fn/symbol';
 
 export default class App {
   constructor() {
@@ -19,11 +20,16 @@ export default class App {
     this.map = new Map(this.totalData, this.allCountriesTimeline);
     // console.log(this.allCountriesTimeline.covidData);
     // console.log(this.totalData);
+    this.addWorldStats();
+    this.worldStatsUpdate();
+
+    
   }
 
   async createCountriesList() {
     const countriesListEl = document.querySelector('#countriesList');
 
+    // переделать получаемый список стран на список совпадений isoList и приходящей инфы от апи
     this.perCountryStats = await this.stats.getAllCountryStats();
     // this.countriesList = Object.keys(isoCountries);
     this.countriesList = Object.keys(this.perCountryStats);
@@ -62,24 +68,116 @@ export default class App {
     const countriesListDataNameEl = document.querySelector('#countriesListDataName');
     const arrowLeftEl = document.querySelector('#arrowLeft');
     const arrowRightEl = document.querySelector('#arrowRight');
-    this.statsList = document.querySelectorAll('.countries__list span');
+    this.statsList = document.querySelectorAll('.countries__list li');
 
-    console.log(this.statsList);
-    arrowLeftEl.addEventListener('click', this.statsSwipe('left'));
-    arrowRightEl.addEventListener('click', this.statsSwipe('right'));
+    // console.log(this.statsList);
+    arrowLeftEl.addEventListener('click', () => { this.statsToggle('left') });
+    arrowRightEl.addEventListener('click', () => { this.statsToggle('right') });
   }
 
-  statsSwipe(direction) {
-    // собрать коллекцию всех li 
-    // итерироваться по всем спанам внутри li
-    // на right тогглить спану класс .show (i и i+1)
-    // при достижении конца списка - обнулять i
-    if (direction === 'right') {
-      for(const i = 0; i <  this.statsList.length; i += 1) {
-
+  statsToggle(direction) {
+    let currentStats = 1;
+    this.statsList.forEach(li => {
+      let statsCollection = li.querySelectorAll('.countries__item > span');
+      // console.log(statsCollection);
+      if (direction === 'right') {
+        for (let i = currentStats; i < statsCollection.length; i += 1) {
+          if (statsCollection[i].classList.contains('show')) {
+            if (i === statsCollection.length - 1) {
+              console.log(statsCollection[1].innerText);
+              statsCollection[i].classList.toggle('show');
+              statsCollection[1].classList.toggle('show');
+              i = 1;
+              currentStats = 1;
+              break;
+            }
+            statsCollection[i].classList.toggle('show');
+            statsCollection[i + 1].classList.toggle('show');
+            currentStats += 1;
+            break;
+          }
+        }
       }
+      if (direction === 'left') {
+        for (let i = currentStats; i < statsCollection.length; i += 1) {
+          if (statsCollection[i].classList.contains('show')) {
+            if (i === 1) {
+              // console.log(statsCollection[1].innerText);
+              statsCollection[i].classList.toggle('show');
+              statsCollection[1].classList.toggle('show');
+              i = 1;
+              currentStats = 1;
+              break;
+            }
+            statsCollection[i].classList.toggle('show');
+            statsCollection[i - 1].classList.toggle('show');
+            currentStats -= 1;
+            break;
+          }
+        }
+      }
+    });
+
+  }
+
+  addWorldStats() {
+    const dateUpdateEl = document.querySelector('#dateUpdate');    
+    this.worldTimeToggleEl  = document.querySelector('#worldTimeToggle');
+    this.worldTypeToggleEl = document.querySelector('#worldTypeToggle');
+    
+    dateUpdateEl.innerText = this.totalData.updated;
+    console.log(this.totalData);
+    this.worldStatsUpdate();
+
+    this.worldTimeToggleEl.addEventListener('change', () => {
+      this.worldStatsUpdate();
+    });
+    this.worldTypeToggleEl.addEventListener('change', () => {
+      this.worldStatsUpdate()
     }
-    // аналогично для left
+      );
+  }
+  
+  worldStatsUpdate() {
+    const worldCasesEl = document.querySelector('#worldCases');
+    const worldDeathsEl = document.querySelector('#worldDeaths');
+    const worldActiveEl = document.querySelector('#worldActive');
+    const worldRecoveredEl = document.querySelector('#worldRecovered');
+
+    // worldCasesEl.innerText = '89898';
+  
+    // если чекбокc time checked то (today) && чекбокс type !checked то (Absolute)
+    if (this.worldTimeToggleEl.checked && !this.worldTypeToggleEl.checked) {
+      // worldCasesEl.innerText = 'today Abs';
+      worldCasesEl.innerText = this.totalData.todayCases;
+      worldDeathsEl.innerText = this.totalData.todayDeaths;
+      worldActiveEl.innerText = 'no data for this parameter for today';
+      worldRecoveredEl.innerText = this.totalData.todayRecovered;
+    }
+    // если чекбокс time !checked (All) && чекбокс type !checked то (Absolute)
+    if (!this.worldTimeToggleEl.checked && !this.worldTypeToggleEl.checked) {
+      // worldCasesEl.innerText = 'All Abs';
+      worldCasesEl.innerText = this.totalData.cases;
+      worldDeathsEl.innerText = this.totalData.deaths;
+      worldActiveEl.innerText = this.totalData.active;
+      worldRecoveredEl.innerText = this.totalData.recovered;
+    }
+    // если чекбокс time checked (All) && чекбокс type checked то (Per100)
+    if (!this.worldTimeToggleEl.checked && this.worldTypeToggleEl.checked) {
+      // worldCasesEl.innerText = 'All per100';
+      worldCasesEl.innerText = this.totalData.casesPerOneHundredThousand;
+      worldDeathsEl.innerText = this.totalData.deathsPerOneHundredThousand;
+      worldActiveEl.innerText = this.totalData.activePerOneHundredThousand;
+      worldRecoveredEl.innerText = this.totalData.recoveredPerOneHundredThousand;
+    }
+    // если чекбокс time checked (today) && чекбокс type checked то (Per100)
+    if (this.worldTimeToggleEl.checked && this.worldTypeToggleEl.checked) {
+      // worldCasesEl.innerText = 'today per100';
+      worldCasesEl.innerText = this.totalData.todayCasesPerOneHundredThousand;
+      worldDeathsEl.innerText = this.totalData.todayDeathsPerOneHundredThousand;
+      worldActiveEl.innerText = 'no data for this parameter for today';
+      worldRecoveredEl.innerText = this.totalData.todayRecoveredPerOneHundredThousand;
+    }
   }
 
 }

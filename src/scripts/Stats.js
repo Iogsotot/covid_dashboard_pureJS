@@ -21,7 +21,7 @@ export default class Stats {
     } if (promise.status === 404) {
       console.log(404);
     } else {
-      console.log('other errors');
+      console.log('дай мне минутку...');
     }
     return covidData;
   }

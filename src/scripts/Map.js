@@ -1,4 +1,5 @@
 /* eslint-disable */
+// этот код большей своей частью взят с сайта amcharts
 
 /* Imports */
 import * as am4core from '@amcharts/amcharts4/core';
@@ -23,7 +24,7 @@ class Map {
     const recoveredColor = am4core.color('rgb(67, 192, 67)');
     const deathsColor = am4core.color('rgb(255, 0, 0)');
 
-    console.log(covid_total_timeline)
+    // console.log(covid_total_timeline)
 
     // for an easier access by key
     const colors = {
@@ -217,7 +218,7 @@ class Map {
     // Bubble series
     const bubbleSeries = mapChart.series.push(new am4maps.MapImageSeries());
 
-    console.log(bubbleSeries);
+    // console.log(bubbleSeries);
     bubbleSeries.data = JSON.parse(JSON.stringify(mapData));
 
     bubbleSeries.dataFields.value = 'confirmed';

@@ -9,8 +9,9 @@ import Map from './Map';
 export default class App {
   constructor() {
     this.stats = new Stats();
-    this.createCountriesList();
+
     this.currentStatsIndex = 0;
+    // console.log('stats: ', this.stats);
   }
 
   async init() {
@@ -22,16 +23,25 @@ export default class App {
     // console.log(this.worldTimeline.covidData);
     // console.log(this.totalData);
     this.addWorldStats();
-    this.worldStatsUpdate();
+    this.addCountryStats();
+    this.updateWorldStats();
+    this.updateCountryStats();
+
+    this.perCountryStats = await this.stats.getAllCountryStats();
+    // console.log('per Country Stats: ', this.perCountryStats);
+
+    this.createCountriesList();
   }
 
   async createCountriesList() {
     const countriesListEl = document.querySelector('#countriesList');
+    countriesListEl.innerHTML = '';
 
     // переделать получаемый список стран на список совпадений isoList и приходящей инфы от апи
-    this.perCountryStats = await this.stats.getAllCountryStats();
     // this.countriesList = Object.keys(isoCountries);
     this.countriesList = Object.keys(this.perCountryStats);
+    // console.log(this.countriesListEl);
+    this.perCountryStats;
 
     for (let i = 0; i < this.countriesList.length; i++) {
       if (this.perCountryStats[i].countryInfo.iso2) {
@@ -60,34 +70,50 @@ export default class App {
           </span>
           <img src="${this.perCountryStats[i].countryInfo.flag}" alt="" class="flag" width="auto" height="14">
         </li>`;
+
         countriesListEl.innerHTML += countryTemplate.innerHTML;
       }
     }
-    // console.log(Object.keys(isoCountries));
     this.countriesListDataControl();
   }
 
-  countriesListDataControl() {
-    this.countriesListDataNameEl = document.querySelector('#countriesListDataName');
-    const arrowLeftEl = document.querySelector('#arrowLeft');
-    const arrowRightEl = document.querySelector('#arrowRight');
-    this.statsList = document.querySelectorAll('.countries__list li');
+  // sortCountriesList(sortType) {
+  //   if (sortType === 'cases') {
+  //     this.perCountryStats.sort(function (a, b) {
+  //       if (a.cases < b.cases) {
+  //         return 1;
+  //       }
+  //       if (a.cases > b.cases) {
+  //         return -1;
+  //       }
+  //       return 0;
+  //     });
+  //     console.log('Arr: ', this.countriesArray);
+  //     this.createCountriesList()
+  //   }
+  // }
+
+  // countriesListDataControl() {
+  //   this.countriesListDataNameEl = document.querySelector('#countriesListDataName');
+  //   const arrowLeftEl = document.querySelector('#arrowLeft');
+  //   const arrowRightEl = document.querySelector('#arrowRight');
+  //   this.statsList = document.querySelectorAll('.countries__list li');
 
 
-    // console.log(this.statsList);
-    arrowLeftEl.addEventListener('click', () => { 
-      this.switchStatsList('left'); 
-      this.switchStatsListTitle();
-    });
-    arrowRightEl.addEventListener('click', () => { 
-      this.switchStatsList('right'); 
-      this.switchStatsListTitle();
-    });
-  }
+  //   // console.log(this.statsList);
+  //   arrowLeftEl.addEventListener('click', () => {
+  //     this.switchStatsList('left');
+  //     this.switchStatsListTitle();
+  //   });
+  //   arrowRightEl.addEventListener('click', () => {
+  //     this.switchStatsList('right');
+  //     this.switchStatsListTitle();
+  //   });
+  // }
 
   switchStatsListTitle() {
     // да, это магические числа.
-    console.log(this.currentStatsIndex);
+    // console.log(this.currentStatsIndex);
     switch (this.currentStatsIndex) {
       case 0:
         this.countriesListDataNameEl.innerText = 'All cases absolute';
@@ -167,19 +193,19 @@ export default class App {
     this.worldTypeToggleEl = document.querySelector('#worldTypeToggle');
 
     dateUpdateEl.innerText = this.totalData.updated;
-    console.log(this.totalData);
-    this.worldStatsUpdate();
+    // console.log(this.totalData);
+    this.updateWorldStats();
 
     this.worldTimeToggleEl.addEventListener('change', () => {
-      this.worldStatsUpdate();
+      this.updateWorldStats();
     });
     this.worldTypeToggleEl.addEventListener('change', () => {
-      this.worldStatsUpdate()
+      this.updateWorldStats()
     }
     );
   }
 
-  worldStatsUpdate() {
+  updateWorldStats() {
     const worldCasesEl = document.querySelector('#worldCases');
     const worldDeathsEl = document.querySelector('#worldDeaths');
     const worldActiveEl = document.querySelector('#worldActive');
@@ -188,7 +214,6 @@ export default class App {
     const worldDeathsMiniEl = document.querySelector('#worldDeathsMini');
     const worldRecoveredMiniEl = document.querySelector('#worldRecoveredMini');
 
-    // если чекбокc time checked то (today) && чекбокс type !checked то (Absolute)
     if (this.worldTimeToggleEl.checked && !this.worldTypeToggleEl.checked) {
       worldCasesEl.innerText = this.totalData.todayCases;
       worldCasesMiniEl.innerText = this.totalData.todayCases;
@@ -198,7 +223,6 @@ export default class App {
       worldRecoveredEl.innerText = this.totalData.todayRecovered;
       worldRecoveredMiniEl.innerText = this.totalData.todayRecovered;
     }
-    // если чекбокс time !checked (All) && чекбокс type !checked то (Absolute)
     if (!this.worldTimeToggleEl.checked && !this.worldTypeToggleEl.checked) {
       worldCasesEl.innerText = this.totalData.cases;
       worldCasesMiniEl.innerText = this.totalData.cases;
@@ -208,7 +232,6 @@ export default class App {
       worldRecoveredEl.innerText = this.totalData.recovered;
       worldRecoveredMiniEl.innerText = this.totalData.recovered;
     }
-    // если чекбокс time checked (All) && чекбокс type checked то (Per100)
     if (!this.worldTimeToggleEl.checked && this.worldTypeToggleEl.checked) {
       worldCasesEl.innerText = this.totalData.casesPerOneHundredThousand;
       worldCasesMiniEl.innerText = this.totalData.casesPerOneHundredThousand;
@@ -218,7 +241,6 @@ export default class App {
       worldRecoveredEl.innerText = this.totalData.recoveredPerOneHundredThousand;
       worldRecoveredMiniEl.innerText = this.totalData.recoveredPerOneHundredThousand;
     }
-    // если чекбокс time checked (today) && чекбокс type checked то (Per100)
     if (this.worldTimeToggleEl.checked && this.worldTypeToggleEl.checked) {
       worldCasesEl.innerText = this.totalData.todayCasesPerOneHundredThousand;
       worldCasesMiniEl.innerText = this.totalData.todayCasesPerOneHundredThousand;
@@ -227,6 +249,71 @@ export default class App {
       worldActiveEl.innerText = 'no data for today';
       worldRecoveredEl.innerText = this.totalData.todayRecoveredPerOneHundredThousand;
       worldRecoveredMiniEl.innerText = this.totalData.todayRecoveredPerOneHundredThousand;
+    }
+  }
+
+  addCountryStats() {
+    this.countryTimeToggleEl = document.querySelector('#countryTimeToggle');
+    this.countryTypeToggleEl = document.querySelector('#countryTypeToggle');
+
+    console.log(this.totalData);
+    this.updateCountryStats();
+
+    this.countryTimeToggleEl.addEventListener('change', () => {
+      this.updateCountryStats();
+    });
+    this.countryTypeToggleEl.addEventListener('change', () => {
+      this.updateCountryStats();
+    }
+    );
+  }
+
+  updateCountryStats() {
+    const countryEl= document.querySelector('#countryName');
+    const countryIso = countryEl.dataset.iso2;
+    const countryCasesEl = document.querySelector('#countryCases');
+    const countryDeathsEl = document.querySelector('#countryDeaths');
+    const countryActiveEl = document.querySelector('#countryActive');
+    const countryRecoveredEl = document.querySelector('#countryRecovered');
+    const countryCasesMiniEl = document.querySelector('#countryCasesMini');
+    const countryDeathsMiniEl = document.querySelector('#countryDeathsMini');
+    const countryRecoveredMiniEl = document.querySelector('#countryRecoveredMini');
+
+    if (this.CountryTimeToggleEl.checked && !this.CountryTypeToggleEl.checked) {
+      countryCasesEl.innerText = this.totalData.todayCases;
+      countryCasesMiniEl.innerText = this.totalData.todayCases;
+      countryDeathsEl.innerText = this.totalData.todayDeaths;
+      countryDeathsMiniEl.innerText = this.totalData.todayDeaths;
+      countryActiveEl.innerText = 'no data for today';
+      countryRecoveredEl.innerText = this.totalData.todayRecovered;
+      countryRecoveredMiniEl.innerText = this.totalData.todayRecovered;
+    }
+    if (!this.countryTimeToggleEl.checked && !this.countryTypeToggleEl.checked) {
+      countryCasesEl.innerText = this.totalData.cases;
+      countryCasesMiniEl.innerText = this.totalData.cases;
+      countryDeathsEl.innerText = this.totalData.deaths;
+      countryDeathsMiniEl.innerText = this.totalData.deaths;
+      countryActiveEl.innerText = this.totalData.active;
+      countryRecoveredEl.innerText = this.totalData.recovered;
+      countryRecoveredMiniEl.innerText = this.totalData.recovered;
+    }
+    if (!this.countryTimeToggleEl.checked && this.countryTypeToggleEl.checked) {
+      countryCasesEl.innerText = this.totalData.casesPerOneHundredThousand;
+      countryCasesMiniEl.innerText = this.totalData.casesPerOneHundredThousand;
+      countryDeathsEl.innerText = this.totalData.deathsPerOneHundredThousand;
+      countryDeathsMiniEl.innerText = this.totalData.deathsPerOneHundredThousand;
+      countryActiveEl.innerText = this.totalData.activePerOneHundredThousand;
+      countryRecoveredEl.innerText = this.totalData.recoveredPerOneHundredThousand;
+      countryRecoveredMiniEl.innerText = this.totalData.recoveredPerOneHundredThousand;
+    }
+    if (this.countryTimeToggleEl.checked && this.countryTypeToggleEl.checked) {
+      countryCasesEl.innerText = this.totalData.todayCasesPerOneHundredThousand;
+      countryCasesMiniEl.innerText = this.totalData.todayCasesPerOneHundredThousand;
+      countryDeathsEl.innerText = this.totalData.todayDeathsPerOneHundredThousand;
+      countryDeathsMiniEl.innerText = this.totalData.todayDeathsPerOneHundredThousand;
+      countryActiveEl.innerText = 'no data for today';
+      countryRecoveredEl.innerText = this.totalData.todayRecoveredPerOneHundredThousand;
+      countryRecoveredMiniEl.innerText = this.totalData.todayRecoveredPerOneHundredThousand;
     }
   }
 

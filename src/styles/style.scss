@@ -135,16 +135,10 @@ main {
     font-size: 6rem;
     text-align: center;
   }
-  .country__name {
-  }
-  .cases {
-    // color: ;
-  }
 }
 
 .countries__list__block {
-  // grid-row: 3/4;
-  // grid-column: 2/3;
+
 
   height: calc(100vh - 9.4rem);
   display: flex;
@@ -436,11 +430,9 @@ footer {
     .countries__list__block {
         grid-row: 3/4;
         grid-column: 2/3;
-        height: auto;
-        overflow-y: scroll;
+        height: calc(100vh - 46rem);
     }
     .countries__list {
-      // grid-row: 3/4;
       display: block;
       margin-top: 0.8rem;
     }
@@ -474,13 +466,14 @@ footer {
     .world,
     .countries,
     .countries__list__block {
-      // display: block;
       height: auto;
       width: auto;
-    }
-    .countries__list__block {
       margin: 0 0.7rem 0.7rem;
-      overflow-y: scroll;
+    }
+
+    .countries__list__block {
+      height: calc(100vh - 47rem);
+      margin: 0 1.4rem 0rem;
     }
   }
 }

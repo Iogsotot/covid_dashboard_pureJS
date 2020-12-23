@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-console */
 import isoCountries from './ISOCountries';
 
@@ -11,9 +12,9 @@ export default class Stats {
     };
   }
 
-  // eslint-disable-next-line class-methods-use-this
   async getDataFromUrl(url) {
-    let covidData = null;
+    this.null = null;
+    let covidData = this.null;
     const promise = await fetch(url);
     if (promise.ok) {
       covidData = await promise.json();

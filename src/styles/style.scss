@@ -113,7 +113,7 @@ main {
     grid-template-columns: 1fr;
     grid-gap: 1rem;
     padding: 0.7rem;
-    height: 19.5rem;
+
 
     .current-country-name {
       max-width: 26rem;
@@ -417,12 +417,14 @@ footer {
       display: flex;
       flex-direction: column;
       padding: 0 0.7rem 0.7rem;
+      height: 19.5rem;
       .countries__stats > div:not(:first-of-type) {
         display: none;
         height: 0;
         width: 0;
       }
       .countries__stats {
+        height: 19.5rem;
         grid-template-rows: 1fr;
         padding: 0rem !important;
       }

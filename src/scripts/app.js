@@ -16,6 +16,9 @@ export default class App {
   }
 
   async init() {
+    this.perCountryStats = await this.stats.getAllCountryStats();
+    this.currentCountry = this.perCountryStats[0];
+    console.log(this.currentCountry)
     const data = await this.stats.prepareDataForMap();
     [this.totalData, this.totalTimeline, this.worldTimeline] = data;
     this.map = new Map(this.totalTimeline, this.worldTimeline);
@@ -24,12 +27,9 @@ export default class App {
     // console.log(this.worldTimeline.covidData);
     // console.log(this.totalData);
     this.addWorldStats();
-    // this.addCountryStats();
+    this.addCountryStats();
     this.updateWorldStats();
     // this.updateCountryStats();
-
-    this.perCountryStats = await this.stats.getAllCountryStats();
-    // console.log('per Country Stats: ', this.perCountryStats);
 
     this.createCountriesList();
   }
@@ -42,13 +42,12 @@ export default class App {
     // this.countriesList = Object.keys(isoCountries);
     this.countriesList = Object.keys(this.perCountryStats);
     // console.log(this.countriesListEl);
-    this.perCountryStats;
 
     for (let i = 0; i < this.countriesList.length; i++) {
       if (this.perCountryStats[i].countryInfo.iso2) {
         const countryTemplate = document.createElement('li');
+        countryTemplate.classList = "countries__item";
         countryTemplate.innerHTML = `
-        <li class="countries__item" data_iso2="${this.perCountryStats[i].countryInfo.iso2}">
           <span class="country__name">${this.perCountryStats[i].country}</span>
           <span class="country__stats">
             <span class="country__cases--All-Abs show">${this.perCountryStats[i].cases}</span>
@@ -70,9 +69,12 @@ export default class App {
             <span class="country__recovered--Today-Per100k">${((this.perCountryStats[i].todayRecovered / this.perCountryStats[i].population) * 100000).toFixed(2)}</span>
           </span>
           <img src="${this.perCountryStats[i].countryInfo.flag}" alt="" class="flag" width="auto" height="14">
-        </li>`;
+        `;
 
-        countriesListEl.innerHTML += countryTemplate.innerHTML;
+
+        countriesListEl.appendChild(countryTemplate);
+        countryTemplate.addEventListener('click',
+          (e) => { this.setCurrentCountry(this.perCountryStats[i].countryInfo.iso2) });
       }
     }
     this.countriesListDataControl();
@@ -253,74 +255,81 @@ export default class App {
     }
   }
 
-  // addCountryStats() {
-  //   this.countryTimeToggleEl = document.querySelector('#countryTimeToggle');
-  //   this.countryTypeToggleEl = document.querySelector('#countryTypeToggle');
+  setCurrentCountry(iso2) {
+    let currentCountryIndex = this.perCountryStats.findIndex(country => country.countryInfo.iso2 === iso2);
+    this.currentCountry = this.perCountryStats[currentCountryIndex];
+    this.updateCountryStats();
+  }
 
-  //   console.log(this.totalData);
-  //   this.updateCountryStats();
+  addCountryStats() {
+    
+    this.countryTimeToggleEl = document.querySelector('#countryTimeToggle');
+    this.countryTypeToggleEl = document.querySelector('#countryTypeToggle');
+    
+    this.updateCountryStats();
+    
+    this.countryTimeToggleEl.addEventListener('change', () => {
+      this.updateCountryStats();
+    });
+    this.countryTypeToggleEl.addEventListener('change', () => {
+      this.updateCountryStats();
+    }
+    );
+  }
+  
+  updateCountryStats() {
+    const countryEl = document.querySelector('#countryName');
+    countryEl.innerText = this.currentCountry.country;
+    countryEl.dataset.iso2 = this.currentCountry.countryInfo.iso2;
+    const countryCasesEl = document.querySelector('#countryCases');
+    const countryDeathsEl = document.querySelector('#countryDeaths');
+    const countryActiveEl = document.querySelector('#countryActive');
+    const countryRecoveredEl = document.querySelector('#countryRecovered');
+    const countryCasesMiniEl = document.querySelector('#countryCasesMini');
+    const countryDeathsMiniEl = document.querySelector('#countryDeathsMini');
+    const countryRecoveredMiniEl = document.querySelector('#countryRecoveredMini');
 
-  //   this.countryTimeToggleEl.addEventListener('change', () => {
-  //     this.updateCountryStats();
-  //   });
-  //   this.countryTypeToggleEl.addEventListener('change', () => {
-  //     this.updateCountryStats();
-  //   }
-  //   );
-  // }
+    console.log(this.currentCountry);
 
-  // updateCountryStats() {
-  //   const countryEl= document.querySelector('#countryName');
-  //   const countryIso = countryEl.dataset.iso2;
-  //   const countryCasesEl = document.querySelector('#countryCases');
-  //   const countryDeathsEl = document.querySelector('#countryDeaths');
-  //   const countryActiveEl = document.querySelector('#countryActive');
-  //   const countryRecoveredEl = document.querySelector('#countryRecovered');
-  //   const countryCasesMiniEl = document.querySelector('#countryCasesMini');
-  //   const countryDeathsMiniEl = document.querySelector('#countryDeathsMini');
-  //   const countryRecoveredMiniEl = document.querySelector('#countryRecoveredMini');
-
-  //   if (this.CountryTimeToggleEl.checked && !this.countryTypeToggleEl.checked) {
-  //     countryCasesEl.innerText = this.totalData.todayCases;
-  //     countryCasesMiniEl.innerText = this.totalData.todayCases;
-  //     countryDeathsEl.innerText = this.totalData.todayDeaths;
-  //     countryDeathsMiniEl.innerText = this.totalData.todayDeaths;
-  //     countryActiveEl.innerText = 'no data for today';
-  //     countryRecoveredEl.innerText = this.totalData.todayRecovered;
-  //     countryRecoveredMiniEl.innerText = this.totalData.todayRecovered;
-  //   }
-  //   if (!this.countryTimeToggleEl.checked && !this.countryTypeToggleEl.checked) {
-  //     countryCasesEl.innerText = this.totalData.cases;
-  //     countryCasesMiniEl.innerText = this.totalData.cases;
-  //     countryDeathsEl.innerText = this.totalData.deaths;
-  //     countryDeathsMiniEl.innerText = this.totalData.deaths;
-  //     countryActiveEl.innerText = this.totalData.active;
-  //     countryRecoveredEl.innerText = this.totalData.recovered;
-  //     countryRecoveredMiniEl.innerText = this.totalData.recovered;
-  //   }
-  //   if (!this.countryTimeToggleEl.checked && this.countryTypeToggleEl.checked) {
-  //     countryCasesEl.innerText = this.totalData.casesPerOneHundredThousand;
-  //     countryCasesMiniEl.innerText = this.totalData.casesPerOneHundredThousand;
-  //     countryDeathsEl.innerText = this.totalData.deathsPerOneHundredThousand;
-  //     countryDeathsMiniEl.innerText = this.totalData.deathsPerOneHundredThousand;
-  //     countryActiveEl.innerText = this.totalData.activePerOneHundredThousand;
-  //     countryRecoveredEl.innerText = this.totalData.recoveredPerOneHundredThousand;
-  //     countryRecoveredMiniEl.innerText = this.totalData.recoveredPerOneHundredThousand;
-  //   }
-  //   if (this.countryTimeToggleEl.checked && this.countryTypeToggleEl.checked) {
-  //     countryCasesEl.innerText = this.totalData.todayCasesPerOneHundredThousand;
-  //     countryCasesMiniEl.innerText = this.totalData.todayCasesPerOneHundredThousand;
-  //     countryDeathsEl.innerText = this.totalData.todayDeathsPerOneHundredThousand;
-  //     countryDeathsMiniEl.innerText = this.totalData.todayDeathsPerOneHundredThousand;
-  //     countryActiveEl.innerText = 'no data for today';
-  //     countryRecoveredEl.innerText = this.totalData.todayRecoveredPerOneHundredThousand;
-  //     countryRecoveredMiniEl.innerText = this.totalData.todayRecoveredPerOneHundredThousand;
-  //   }
-  // }
+    if (this.countryTimeToggleEl.checked && !this.countryTypeToggleEl.checked) {
+      countryCasesEl.innerText = this.currentCountry.todayCases;
+      countryCasesMiniEl.innerText = this.currentCountry.todayCases;
+      countryDeathsEl.innerText = this.currentCountry.todayDeaths;
+      countryDeathsMiniEl.innerText = this.currentCountry.todayDeaths;
+      countryActiveEl.innerText = 'no data for today';
+      countryRecoveredEl.innerText = this.currentCountry.todayRecovered;
+      countryRecoveredMiniEl.innerText = this.currentCountry.todayRecovered;
+    }
+    if (!this.countryTimeToggleEl.checked && !this.countryTypeToggleEl.checked) {
+      countryCasesEl.innerText = this.currentCountry.cases;
+      countryCasesMiniEl.innerText = this.currentCountry.cases;
+      countryDeathsEl.innerText = this.currentCountry.deaths;
+      countryDeathsMiniEl.innerText = this.currentCountry.deaths;
+      countryActiveEl.innerText = this.currentCountry.active;
+      countryRecoveredEl.innerText = this.currentCountry.recovered;
+      countryRecoveredMiniEl.innerText = this.currentCountry.recovered;
+    }
+    if (!this.countryTimeToggleEl.checked && this.countryTypeToggleEl.checked) {
+      countryCasesEl.innerText = ((this.currentCountry.cases / this.currentCountry.population) * 100000).toFixed(2);
+      countryCasesMiniEl.innerText = ((this.currentCountry.cases / this.currentCountry.population) * 100000).toFixed(2);
+      countryDeathsEl.innerText = ((this.currentCountry.deaths / this.currentCountry.population) * 100000).toFixed(2);
+      countryDeathsMiniEl.innerText = ((this.currentCountry.deaths / this.currentCountry.population) * 100000).toFixed(2);
+      countryActiveEl.innerText = ((this.currentCountry.active / this.currentCountry.population) * 100000).toFixed(2);
+      countryRecoveredEl.innerText = ((this.currentCountry.recovered / this.currentCountry.population) * 100000).toFixed(2);
+      countryRecoveredMiniEl.innerText = ((this.currentCountry.recovered / this.currentCountry.population) * 100000).toFixed(2);
+    }
+    if (this.countryTimeToggleEl.checked && this.countryTypeToggleEl.checked) {
+      countryCasesEl.innerText = ((this.currentCountry.todayCases / this.currentCountry.population) * 100000).toFixed(2);
+      countryCasesMiniEl.innerText = ((this.currentCountry.todayCases / this.currentCountry.population) * 100000).toFixed(2);
+      countryDeathsEl.innerText = ((this.currentCountry.todayDeaths / this.currentCountry.population) * 100000).toFixed(2);
+      countryDeathsMiniEl.innerText = ((this.currentCountry.todayDeaths / this.currentCountry.population) * 100000).toFixed(2);
+      countryActiveEl.innerText = 'no data for today';
+      countryRecoveredEl.innerText = ((this.currentCountry.todayRecovered / this.currentCountry.population) * 100000).toFixed(2);
+      countryRecoveredMiniEl.innerText = ((this.currentCountry.todayRecovered / this.currentCountry.population) * 100000).toFixed(2);
+    }
+  }
 
 }
-
-
 
 
 const app = new App();

@@ -82,13 +82,13 @@
     <section class="countries">
       <div class="countries__stats">
         <div class="country">
-          <h3 class="current-country-name">Lao People's Democratic Republic</h3>
+          <h3 class="current-country-name" id="countryName" data-iso2="LA">Lao People's Democratic Republic</h3>
           <div class="switches">
             <div class="switch--time-stats">
               <div class="switch__text">All</div>
               <label class="switch">
 
-                <input type="checkbox">
+                <input type="checkbox" id="countryTimeToggle">
                 <span class="slider round"></span>
               </label>
               <div class="switch__text">Today</div>
@@ -96,33 +96,33 @@
             <div class="switch--type-stats">
               <div class="switch__text">Absolute</div>
               <label class="switch">
-                <input type="checkbox">
+                <input type="checkbox" id="countryTypeToggle">
                 <span class="slider round"></span>
               </label>
               <div class="switch__text">Per 100k</div>
             </div>
           </div>
           <div class="country__stats--adaptive">
-            <div class="cases--adaptive">cases: 456545 </div>
-            <div class="recovered--adaptive">recovered: 4422 </div>
-            <div class="deaths--adaptive">deaths: 545445 </div>
+            <div class="cases--adaptive">cases: <span id="countryCasesMini">??????????</span> </div>
+            <div class="recovered--adaptive">recovered: <span id="countryRecoveredMini">??????????</span> </div>
+            <div class="deaths--adaptive">deaths: <span id="countryDeathsMini">??????????</span> </div>
           </div>
         </div>
         <div class="cases">
           <div class="cases__title">Cases</div>
-          <div class="cases__data">??????????</div>
+          <div class="cases__data" id="countryCases">??????????</div>
         </div>
         <div class="active">
           <div class="active__title">Active</div>
-          <div class="active__data">??????????</div>
+          <div class="active__data" id="countryActive">??????????</div>
         </div>
         <div class="recovered">
           <div class="recovered__title">Recovered</div>
-          <div class="recovered__data">??????????</div>
+          <div class="recovered__data" id="countryRecovered">??????????</div>
         </div>
         <div class="deaths">
           <div class="deaths__title">Deaths</div>
-          <div class="deaths__data">??????????</div>
+          <div class="deaths__data" id="countryDeaths">??????????</div>
         </div>
       </div>
     </section>
@@ -150,8 +150,8 @@
           <a href="https://github.com/Iogsotot" class="link">Anna Justus</a>
         </div>
         <div class="RSS">
-          <img src="./assets/rs_school_js.svg" class="icon" alt="Github">
-          <a href="https://rs.school/js/" class="link">RSSchool</a>
+          <img src="./assets/rs_school_js.svg" class="icon" alt="RSSchool">
+          <a href="https://rs.school/js/" class="link"></a>
         </div>
       </div>
     </div>

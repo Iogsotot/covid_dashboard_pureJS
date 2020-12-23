@@ -1,35 +1,24 @@
-/* eslint-disable */
 import '../styles/style.scss';
-
-// import isoCountries from './ISOCountries';
 
 import Stats from './Stats';
 import Map from './Map';
-// import { for } from 'core-js/fn/symbol';
 
 export default class App {
   constructor() {
     this.stats = new Stats();
 
     this.currentStatsIndex = 0;
-    // console.log('stats: ', this.stats);
   }
 
   async init() {
     this.perCountryStats = await this.stats.getAllCountryStats();
-    this.currentCountry = this.perCountryStats[0];
-    console.log(this.currentCountry)
+    [this.currentCountry] = [this.perCountryStats[0]];
     const data = await this.stats.prepareDataForMap();
     [this.totalData, this.totalTimeline, this.worldTimeline] = data;
     this.map = new Map(this.totalTimeline, this.worldTimeline);
-    // this.totalData = await this.stats.getTotalStats();
-    // this.worldTimeline = await this.stats.getTotalTimeline();
-    // console.log(this.worldTimeline.covidData);
-    // console.log(this.totalData);
     this.addWorldStats();
     this.addCountryStats();
     this.updateWorldStats();
-    // this.updateCountryStats();
 
     this.createCountriesList();
   }
@@ -38,15 +27,12 @@ export default class App {
     const countriesListEl = document.querySelector('#countriesList');
     countriesListEl.innerHTML = '';
 
-    // переделать получаемый список стран на список совпадений isoList и приходящей инфы от апи
-    // this.countriesList = Object.keys(isoCountries);
     this.countriesList = Object.keys(this.perCountryStats);
-    // console.log(this.countriesListEl);
 
     for (let i = 0; i < this.countriesList.length; i++) {
       if (this.perCountryStats[i].countryInfo.iso2) {
         const countryTemplate = document.createElement('li');
-        countryTemplate.classList = "countries__item";
+        countryTemplate.classList = 'countries__item';
         countryTemplate.innerHTML = `
           <span class="country__name">${this.perCountryStats[i].country}</span>
           <span class="country__stats">
@@ -59,22 +45,29 @@ export default class App {
             <span class="country__deaths--Today-Abs">${this.perCountryStats[i].todayDeaths}</span>
             <span class="country__recovered--Today-Abs">${this.perCountryStats[i].todayRecovered}</span>
 
-            <span class="country__cases--All-Per100k">${((this.perCountryStats[i].cases / this.perCountryStats[i].population) * 100000).toFixed(2)}</span>
-            <span class="country__deaths--All-Per100k">${((this.perCountryStats[i].deaths / this.perCountryStats[i].population) * 100000).toFixed(2)}</span>
-            <span class="country__active--All-Per100k">${((this.perCountryStats[i].active / this.perCountryStats[i].population) * 100000).toFixed(2)}</span>
-            <span class="country__recovered--All-Per100k">${((this.perCountryStats[i].recovered / this.perCountryStats[i].population) * 100000).toFixed(2)}</span>
+            <span class="country__cases--All-Per100k">
+            ${((this.perCountryStats[i].cases / this.perCountryStats[i].population) * 100000).toFixed(2)}</span>
+            <span class="country__deaths--All-Per100k">
+            ${((this.perCountryStats[i].deaths / this.perCountryStats[i].population) * 100000).toFixed(2)}</span>
+            <span class="country__active--All-Per100k">
+            ${((this.perCountryStats[i].active / this.perCountryStats[i].population) * 100000).toFixed(2)}</span>
+            <span class="country__recovered--All-Per100k">
+            ${((this.perCountryStats[i].recovered / this.perCountryStats[i].population) * 100000).toFixed(2)}</span>
 
-            <span class="country__cases--Today-Per100k">${((this.perCountryStats[i].todayCases / this.perCountryStats[i].population) * 100000).toFixed(2)}</span>
-            <span class="country__deaths--Today-Per100k">${((this.perCountryStats[i].todayDeaths / this.perCountryStats[i].population) * 100000).toFixed(2)}</span>
-            <span class="country__recovered--Today-Per100k">${((this.perCountryStats[i].todayRecovered / this.perCountryStats[i].population) * 100000).toFixed(2)}</span>
+            <span class="country__cases--Today-Per100k">
+            ${((this.perCountryStats[i].todayCases / this.perCountryStats[i].population) * 100000).toFixed(2)}</span>
+            <span class="country__deaths--Today-Per100k">
+            ${((this.perCountryStats[i].todayDeaths / this.perCountryStats[i].population) * 100000).toFixed(2)}</span>
+            <span class="country__recovered--Today-Per100k">
+            ${((this.perCountryStats[i].todayRecovered / this.perCountryStats[i].population) * 100000).toFixed(2)}
+            </span>
           </span>
           <img src="${this.perCountryStats[i].countryInfo.flag}" alt="" class="flag" width="auto" height="14">
         `;
 
-
         countriesListEl.appendChild(countryTemplate);
         countryTemplate.addEventListener('click',
-          (e) => { this.setCurrentCountry(this.perCountryStats[i].countryInfo.iso2) });
+          () => { this.setCurrentCountry(this.perCountryStats[i].countryInfo.iso2); });
       }
     }
     this.countriesListDataControl();
@@ -101,7 +94,6 @@ export default class App {
     const arrowLeftEl = document.querySelector('#arrowLeft');
     const arrowRightEl = document.querySelector('#arrowRight');
     this.statsList = document.querySelectorAll('.countries__list li');
-
 
     // console.log(this.statsList);
     arrowLeftEl.addEventListener('click', () => {
@@ -167,7 +159,7 @@ export default class App {
 
   switchStatsList(direction) {
     let statsCollection = this.statsList[0].querySelectorAll('.country__stats > span');
-    let previousIndex = this.currentStatsIndex;
+    const previousIndex = this.currentStatsIndex;
 
     if (direction === 'right') {
       if (this.currentStatsIndex + 1 === statsCollection.length) {
@@ -183,7 +175,7 @@ export default class App {
         this.currentStatsIndex -= 1;
       }
     }
-    this.statsList.forEach(li => {
+    this.statsList.forEach((li) => {
       statsCollection = li.querySelectorAll('.country__stats > span');
       statsCollection[previousIndex].classList.toggle('show');
       statsCollection[this.currentStatsIndex].classList.toggle('show');
@@ -203,9 +195,8 @@ export default class App {
       this.updateWorldStats();
     });
     this.worldTypeToggleEl.addEventListener('change', () => {
-      this.updateWorldStats()
-    }
-    );
+      this.updateWorldStats();
+    });
   }
 
   updateWorldStats() {
@@ -256,27 +247,25 @@ export default class App {
   }
 
   setCurrentCountry(iso2) {
-    let currentCountryIndex = this.perCountryStats.findIndex(country => country.countryInfo.iso2 === iso2);
+    const currentCountryIndex = this.perCountryStats.findIndex((country) => country.countryInfo.iso2 === iso2);
     this.currentCountry = this.perCountryStats[currentCountryIndex];
     this.updateCountryStats();
   }
 
   addCountryStats() {
-    
     this.countryTimeToggleEl = document.querySelector('#countryTimeToggle');
     this.countryTypeToggleEl = document.querySelector('#countryTypeToggle');
-    
+
     this.updateCountryStats();
-    
+
     this.countryTimeToggleEl.addEventListener('change', () => {
       this.updateCountryStats();
     });
     this.countryTypeToggleEl.addEventListener('change', () => {
       this.updateCountryStats();
-    }
-    );
+    });
   }
-  
+
   updateCountryStats() {
     const countryEl = document.querySelector('#countryName');
     countryEl.innerText = this.currentCountry.country;
@@ -289,7 +278,7 @@ export default class App {
     const countryDeathsMiniEl = document.querySelector('#countryDeathsMini');
     const countryRecoveredMiniEl = document.querySelector('#countryRecoveredMini');
 
-    console.log(this.currentCountry);
+    // console.log(this.currentCountry);
 
     if (this.countryTimeToggleEl.checked && !this.countryTypeToggleEl.checked) {
       countryCasesEl.innerText = this.currentCountry.todayCases;
@@ -313,24 +302,32 @@ export default class App {
       countryCasesEl.innerText = ((this.currentCountry.cases / this.currentCountry.population) * 100000).toFixed(2);
       countryCasesMiniEl.innerText = ((this.currentCountry.cases / this.currentCountry.population) * 100000).toFixed(2);
       countryDeathsEl.innerText = ((this.currentCountry.deaths / this.currentCountry.population) * 100000).toFixed(2);
-      countryDeathsMiniEl.innerText = ((this.currentCountry.deaths / this.currentCountry.population) * 100000).toFixed(2);
-      countryActiveEl.innerText = ((this.currentCountry.active / this.currentCountry.population) * 100000).toFixed(2);
-      countryRecoveredEl.innerText = ((this.currentCountry.recovered / this.currentCountry.population) * 100000).toFixed(2);
-      countryRecoveredMiniEl.innerText = ((this.currentCountry.recovered / this.currentCountry.population) * 100000).toFixed(2);
+      countryDeathsMiniEl.innerText = (
+        (this.currentCountry.deaths / this.currentCountry.population) * 100000).toFixed(2);
+      countryActiveEl.innerText = (
+        (this.currentCountry.active / this.currentCountry.population) * 100000).toFixed(2);
+      countryRecoveredEl.innerText = (
+        (this.currentCountry.recovered / this.currentCountry.population) * 100000).toFixed(2);
+      countryRecoveredMiniEl.innerText = (
+        (this.currentCountry.recovered / this.currentCountry.population) * 100000).toFixed(2);
     }
     if (this.countryTimeToggleEl.checked && this.countryTypeToggleEl.checked) {
-      countryCasesEl.innerText = ((this.currentCountry.todayCases / this.currentCountry.population) * 100000).toFixed(2);
-      countryCasesMiniEl.innerText = ((this.currentCountry.todayCases / this.currentCountry.population) * 100000).toFixed(2);
-      countryDeathsEl.innerText = ((this.currentCountry.todayDeaths / this.currentCountry.population) * 100000).toFixed(2);
-      countryDeathsMiniEl.innerText = ((this.currentCountry.todayDeaths / this.currentCountry.population) * 100000).toFixed(2);
+      countryCasesEl.innerText = (
+        (this.currentCountry.todayCases / this.currentCountry.population) * 100000).toFixed(2);
+      countryCasesMiniEl.innerText = (
+        (this.currentCountry.todayCases / this.currentCountry.population) * 100000).toFixed(2);
+      countryDeathsEl.innerText = (
+        (this.currentCountry.todayDeaths / this.currentCountry.population) * 100000).toFixed(2);
+      countryDeathsMiniEl.innerText = (
+        (this.currentCountry.todayDeaths / this.currentCountry.population) * 100000).toFixed(2);
       countryActiveEl.innerText = 'no data for today';
-      countryRecoveredEl.innerText = ((this.currentCountry.todayRecovered / this.currentCountry.population) * 100000).toFixed(2);
-      countryRecoveredMiniEl.innerText = ((this.currentCountry.todayRecovered / this.currentCountry.population) * 100000).toFixed(2);
+      countryRecoveredEl.innerText = (
+        (this.currentCountry.todayRecovered / this.currentCountry.population) * 100000).toFixed(2);
+      countryRecoveredMiniEl.innerText = (
+        (this.currentCountry.todayRecovered / this.currentCountry.population) * 100000).toFixed(2);
     }
   }
-
 }
-
 
 const app = new App();
 app.init();

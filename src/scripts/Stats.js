@@ -1,5 +1,3 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-console */
 import isoCountries from './ISOCountries';
 
 export default class Stats {

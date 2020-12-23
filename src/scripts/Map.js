@@ -17,11 +17,11 @@ class Map {
     am4core.useTheme(am4themes_animated);
     // Themes end
     const numberFormatter = new am4core.NumberFormatter();
-    const backgroundColor = am4core.color('#1e2128');
-    const activeColor = am4core.color('#ff8726');
-    const confirmedColor = am4core.color('#d21a1a');
-    const recoveredColor = am4core.color('#45d21a');
-    const deathsColor = am4core.color('#1c5fe5');
+    const backgroundColor = am4core.color('#3a3a3a');
+    const activeColor = am4core.color('coral');
+    const confirmedColor = am4core.color('white');
+    const recoveredColor = am4core.color('rgb(67, 192, 67)');
+    const deathsColor = am4core.color('rgb(255, 0, 0)');
 
     console.log(covid_total_timeline)
 
@@ -30,11 +30,11 @@ class Map {
       active: activeColor, confirmed: confirmedColor, recovered: recoveredColor, deaths: deathsColor,
     };
 
-    const countryColor = am4core.color('#3b3b3b');
-    const countryStrokeColor = am4core.color('#000000');
+    const countryColor = am4core.color('black');
+    const countryStrokeColor = am4core.color('red');
     const buttonStrokeColor = am4core.color('#ffffff');
-    const countryHoverColor = am4core.color('#1b1b1b');
-    const activeCountryColor = am4core.color('#0f0f0f');
+    const countryHoverColor = am4core.color('#4e4e4e');
+    const activeCountryColor = am4core.color('#530000');
 
     let currentIndex;
     let currentCountry = 'World';
@@ -320,39 +320,39 @@ class Map {
     title.y = 20;
 
     // // switch between map and globe
-    const mapGlobeSwitch = mapChart.createChild(am4core.SwitchButton);
-    mapGlobeSwitch.align = 'right';
-    mapGlobeSwitch.y = 15;
-    mapGlobeSwitch.leftLabel.text = 'Map';
-    mapGlobeSwitch.leftLabel.fill = am4core.color('#ffffff');
-    mapGlobeSwitch.rightLabel.fill = am4core.color('#ffffff');
-    mapGlobeSwitch.rightLabel.text = 'Globe';
-    mapGlobeSwitch.verticalCenter = 'top';
+    // const mapGlobeSwitch = mapChart.createChild(am4core.SwitchButton);
+    // mapGlobeSwitch.align = 'right';
+    // mapGlobeSwitch.y = 15;
+    // mapGlobeSwitch.leftLabel.text = 'Map';
+    // mapGlobeSwitch.leftLabel.fill = am4core.color('#ffffff');
+    // mapGlobeSwitch.rightLabel.fill = am4core.color('#ffffff');
+    // mapGlobeSwitch.rightLabel.text = 'Globe';
+    // mapGlobeSwitch.verticalCenter = 'top';
 
-    mapGlobeSwitch.events.on('toggled', () => {
-      if (mapGlobeSwitch.isActive) {
-        mapChart.projection = new am4maps.projections.Orthographic();
-        mapChart.backgroundSeries.show();
-        mapChart.panBehavior = 'rotateLongLat';
-        polygonSeries.exclude = [];
-      } else {
-        mapChart.projection = new am4maps.projections.Miller();
-        mapChart.backgroundSeries.hide();
-        mapChart.panBehavior = 'move';
-        removeAntarctica(mapData);
-        polygonSeries.data = mapData;
-        polygonSeries.exclude = ['AQ'];
-      }
-    });
+    // mapGlobeSwitch.events.on('toggled', () => {
+    //   if (mapGlobeSwitch.isActive) {
+    //     mapChart.projection = new am4maps.projections.Orthographic();
+    //     mapChart.backgroundSeries.show();
+    //     mapChart.panBehavior = 'rotateLongLat';
+    //     polygonSeries.exclude = [];
+    //   } else {
+    //     mapChart.projection = new am4maps.projections.Miller();
+    //     mapChart.backgroundSeries.hide();
+    //     mapChart.panBehavior = 'move';
+    //     removeAntarctica(mapData);
+    //     polygonSeries.data = mapData;
+    //     polygonSeries.exclude = ['AQ'];
+    //   }
+    // });
 
     // switch between map and globe
     const absolutePerCapitaSwitch = mapChart.createChild(am4core.SwitchButton);
-    absolutePerCapitaSwitch.align = 'center';
+    absolutePerCapitaSwitch.align = 'right';
     absolutePerCapitaSwitch.y = 15;
     absolutePerCapitaSwitch.leftLabel.text = 'Absolute';
     absolutePerCapitaSwitch.leftLabel.fill = am4core.color('#ffffff');
     absolutePerCapitaSwitch.rightLabel.fill = am4core.color('#ffffff');
-    absolutePerCapitaSwitch.rightLabel.text = 'Per Capita';
+    absolutePerCapitaSwitch.rightLabel.text = 'Per 100k';
     absolutePerCapitaSwitch.rightLabel.interactionsEnabled = true;
     absolutePerCapitaSwitch.rightLabel.tooltipText = 'When calculating max value, countries with population less than 100.000 are not included.';
     absolutePerCapitaSwitch.verticalCenter = 'top';
@@ -405,7 +405,7 @@ class Map {
 
     // name of a country and date label
     const countryName = nameAndButtonsContainer.createChild(am4core.Label);
-    countryName.fontSize = '1.1em';
+    countryName.fontSize = '1.4rem';
     countryName.fill = am4core.color('#ffffff');
     countryName.valign = 'middle';
 
@@ -424,7 +424,7 @@ class Map {
     chartAndSliderContainer.background = new am4core.RoundedRectangle();
     chartAndSliderContainer.background.fill = am4core.color('#000000');
     chartAndSliderContainer.background.cornerRadius(30, 30, 0, 0);
-    chartAndSliderContainer.background.fillOpacity = 0.25;
+    chartAndSliderContainer.background.fillOpacity = 0.4;
     chartAndSliderContainer.paddingTop = 12;
     chartAndSliderContainer.paddingBottom = 0;
 
@@ -462,6 +462,7 @@ class Map {
     // play button
     const playButton = sliderContainer.createChild(am4core.PlayButton);
     playButton.valign = 'middle';
+    playButton.background.fill = 'black';
     // play button behavior
     playButton.events.on('toggled', (event) => {
       if (event.target.isActive) {
@@ -685,7 +686,7 @@ class Map {
     lineChart.legend.labels.template.fill = am4core.color('#ffffff');
     lineChart.legend.markers.template.height = 8;
     lineChart.legend.contentAlign = 'left';
-    lineChart.legend.fontSize = '10px';
+    lineChart.legend.fontSize = '14px';
     lineChart.legend.itemContainers.template.valign = 'middle';
     let legendDown = false;
     lineChart.legend.itemContainers.template.events.on('down', () => {
@@ -879,6 +880,8 @@ class Map {
     const confirmedButton = addButton('confirmed', confirmedColor);
     const recoveredButton = addButton('recovered', recoveredColor);
     const deathsButton = addButton('deaths', deathsColor);
+
+    // activeButton.style.width = '16rem';
 
     const buttons = {
       active: activeButton, confirmed: confirmedButton, recovered: recoveredButton, deaths: deathsButton,
@@ -1315,40 +1318,45 @@ class Map {
     setTimeout(updateSeriesTooltip, 3000);
 
     function updateCountryTooltip() {
-      polygonSeries.mapPolygons.template.tooltipText = `[bold]{name}: {value.formatNumber('#.')}[/]\n[font-size:10px]${currentTypeName} per million`;
+      polygonSeries.mapPolygons.template.tooltipText = `[bold]{name}: {value.formatNumber('#.')}[/]\n[font-size:10px]${currentTypeName} per 100k`;
     }
 
     /**
      * Country/state list on the right
      */
-    /*
-      function populateCountries(list) {
-        let table = $("#areas tbody");
-        table.find(".area").remove();
-        for (var i = 0; i < list.length; i++) {
-          let area = list[i];
-          let tr = $("<tr>").addClass("area").data("areaid", area.id).appendTo(table).on("click", function() {
-            selectCountry(polygonSeries.getPolygonById($(this).data("areaid")));
-          }).hover(function() {
-            rollOverCountry(polygonSeries.getPolygonById($(this).data("areaid")));
-          });
-          $("<td>").appendTo(tr).data("areaid", area.id).html(area.name);
-          $("<td>").addClass("value").appendTo(tr).html(area.confirmed);
-          $("<td>").addClass("value").appendTo(tr).html(area.deaths);
-          $("<td>").addClass("value").appendTo(tr).html(area.recovered);
 
-        }
-        $("#areas").DataTable({
-          "paging": false,
-          "select": true
-        }).column("1")
-          .order("desc")
-          .draw();;
-      }
-    */
+    // function populateCountries(list) {
+    //   let table = document.querySelector("#areas");
+    //   !!table.querySelector(".area").parentNode.removeChild(table);
+    //   for (var i = 0; i < list.length; i++) {
+    //     let area = list[i];
+    //     let tr = document.querySelector("<tr>").classList.add("area").data("areaid", area.id);
+    //     table.appendChild(tr);
+    //     tr.addEventListener('click', () => {
+    //       selectCountry(polygonSeries.getPolygonById($(this).data("areaid")))
+    //     });
+    //     tr.addEventListener('mouseover', () => {
+    //       selectCountry(polygonSeries.getPolygonById($(this).data("areaid")))
+    //     });
+
+    //     document.querySelector("<td>").appendTo(tr).data("areaid", area.id).html(area.name);
+    //     document.querySelector("<td>").classList.add("value").appendTo(tr).html(area.confirmed);
+    //     document.querySelector("<td>").classList.add("value").appendTo(tr).html(area.deaths);
+    //     document.querySelector("<td>").classList.add("value").appendTo(tr).html(area.recovered);
+
+    //   }
+    //   document.querySelector("#areas").DataTable({
+    //     "paging": false,
+    //     "select": true
+    //   }).column("1")
+    //     .order("desc")
+    //     .draw();
+    // }
+    // populateCountries();
+
 
     // function idToName(id) {
-    // return am4geodata_data_countries2[id] ? am4geodata_data_countries2[id].country : id == "XX" ? "Others" : id;
+    //   return am4geodata_data_countries2[id] ? am4geodata_data_countries2[id].country : id == "XX" ? "Others" : id;
     // }
 
     function removeAntarctica(mapData) {

@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  transition: all 0.3s linear;
+  transition: all 150ms linear;
 }
 
 $block-border: #ac1121;
@@ -24,6 +24,7 @@ body {
 }
 
 main {
+  position: relative;
   display: grid;
   grid-template-columns: 1fr 6fr 1fr auto;
   grid-template-rows: auto;
@@ -31,6 +32,59 @@ main {
 
   margin: 0 auto;
   // border: 5px solid orange;
+
+  #errorMsg {
+    display: none;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 200;
+    font-size: 5rem;
+    font-weight: bold;
+    color: white;
+    text-shadow: 
+		-0   -4px 0   #000000,
+		 0   -4px 0   #000000,
+		-0    4px 0   #000000,
+		 0    4px 0   #000000,
+		-4px -0   0   #000000,
+		 4px -0   0   #000000,
+		-4px  0   0   #000000,
+		 4px  0   0   #000000,
+		-1px -4px 0   #000000,
+		 1px -4px 0   #000000,
+		-1px  4px 0   #000000,
+		 1px  4px 0   #000000,
+		-4px -1px 0   #000000,
+		 4px -1px 0   #000000,
+		-4px  1px 0   #000000,
+		 4px  1px 0   #000000,
+		-2px -4px 0   #000000,
+		 2px -4px 0   #000000,
+		-2px  4px 0   #000000,
+		 2px  4px 0   #000000,
+		-4px -2px 0   #000000,
+		 4px -2px 0   #000000,
+		-4px  2px 0   #000000,
+		 4px  2px 0   #000000,
+		-3px -4px 0   #000000,
+		 3px -4px 0   #000000,
+		-3px  4px 0   #000000,
+		 3px  4px 0   #000000,
+		-4px -3px 0   #000000,
+		 4px -3px 0   #000000,
+		-4px  3px 0   #000000,
+		 4px  3px 0   #000000,
+		-4px -4px 0   #000000,
+		 4px -4px 0   #000000,
+		-4px  4px 0   #000000,
+		 4px  4px 0   #000000,
+		-4px -4px 0   #000000,
+		 4px -4px 0   #000000,
+		-4px  4px 0   #000000,
+		 4px  4px 0   #000000;
+  }
 }
 
 [class$="__data"] {
@@ -99,8 +153,6 @@ main {
     #chartdiv {
       height: inherit;
     }
-  }
-  .graph {
   }
 }
 

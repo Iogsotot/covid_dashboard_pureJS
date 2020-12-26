@@ -20,8 +20,10 @@ export default class Stats {
       covidData = await promise.json();
     } if (promise.status === 404) {
       console.log(404);
+      this.showErrorMsg(404);
     } else {
       console.log('дай мне минутку...');
+      this.showErrorMsg();
     }
     return covidData;
   }
@@ -99,7 +101,6 @@ export default class Stats {
       };
     }
     // weight = 3.5 MB
-    // return covidData;
     return worldTimeline;
   }
 
@@ -152,13 +153,6 @@ export default class Stats {
           countries[element.country][key].deaths += element.timeline.deaths[key];
         });
       }
-      // Object.keys(element.timeline.cases).forEach((key) => {
-      //   countries[element.country][key] = {
-      //     cases: countries[element.country].timeline.cases[key],
-      //     recovered: countries[element.country].timeline.recovered[key],
-      //     deaths: countries[element.country].timeline.deaths[key]
-      //   }
-      // });
       delete countries[element.country].timeline;
       delete countries[element.country].country;
       return countries;
@@ -195,5 +189,18 @@ export default class Stats {
       }
     });
     return Object.values(result);
+  }
+
+  showErrorMsg(errorCode = 0) {
+    this.errorMsgEl = document.querySelector('#errorMsg');
+    this.errorMsgEl.style.display = 'block';
+    if (errorCode === 404) {
+      this.errorMsgEl.innerText = 'Problems with API server. Code 404';
+    }
+    this.errorMsgEl.innerText = 'Give me a minute, please...';
+    setTimeout(() => {
+      this.errorMsgEl.innerText = '';
+      this.errorMsgEl.style.display = 'none';
+    }, 2000);
   }
 }

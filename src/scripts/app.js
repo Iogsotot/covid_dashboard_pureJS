@@ -107,54 +107,11 @@ export default class App {
   }
 
   switchStatsListTitle() {
-    // да, это магические числа.
-    // console.log(this.currentStatsIndex);
-    switch (this.currentStatsIndex) {
-      case 0:
-        this.countriesListDataNameEl.innerText = 'All cases absolute';
-        break;
-      case 1:
-        this.countriesListDataNameEl.innerText = 'All active absolute';
-        break;
-      case 2:
-        this.countriesListDataNameEl.innerText = 'All deaths absolute';
-        break;
-      case 3:
-        this.countriesListDataNameEl.innerText = 'All recovered absolute';
-        break;
-      case 4:
-        this.countriesListDataNameEl.innerText = 'Today cases absolute';
-        break;
-      case 5:
-        this.countriesListDataNameEl.innerText = 'Today deaths absolute';
-        break;
-      case 6:
-        this.countriesListDataNameEl.innerText = 'Today recovered absolute';
-        break;
-      case 7:
-        this.countriesListDataNameEl.innerText = 'All cases per 100k';
-        break;
-      case 8:
-        this.countriesListDataNameEl.innerText = 'All deaths per 100k';
-        break;
-      case 9:
-        this.countriesListDataNameEl.innerText = 'All active per 100k';
-        break;
-      case 10:
-        this.countriesListDataNameEl.innerText = 'All recovered per 100k';
-        break;
-      case 11:
-        this.countriesListDataNameEl.innerText = 'Today cases per 100k';
-        break;
-      case 12:
-        this.countriesListDataNameEl.innerText = 'Today deaths per 100k';
-        break;
-      case 13:
-        this.countriesListDataNameEl.innerText = 'Today recovered per 100k';
-        break;
-      default:
-        break;
-    }
+    const dataCaptionList = ['All cases absolute', 'All active absolute', 'All deaths absolute',
+      'All recovered absolute', 'Today cases absolute', 'Today deaths absolute', 'Today recovered absolute',
+      'All cases per 100k', 'All deaths per 100k', 'All active per 100k', 'All recovered per 100k',
+      'Today cases per 100k', 'Today deaths per 100k', 'Today recovered per 100k'];
+    this.countriesListDataNameEl.innerText = dataCaptionList[this.currentStatsIndex];
   }
 
   switchStatsList(direction) {

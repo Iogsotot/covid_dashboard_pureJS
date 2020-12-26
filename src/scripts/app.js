@@ -73,29 +73,12 @@ export default class App {
     this.countriesListDataControl();
   }
 
-  // sortCountriesList(sortType) {
-  //   if (sortType === 'cases') {
-  //     this.perCountryStats.sort(function (a, b) {
-  //       if (a.cases < b.cases) {
-  //         return 1;
-  //       }
-  //       if (a.cases > b.cases) {
-  //         return -1;
-  //       }
-  //       return 0;
-  //     });
-  //     console.log('Arr: ', this.countriesArray);
-  //     this.createCountriesList()
-  //   }
-  // }
-
   countriesListDataControl() {
     this.countriesListDataNameEl = document.querySelector('#countriesListDataName');
     const arrowLeftEl = document.querySelector('#arrowLeft');
     const arrowRightEl = document.querySelector('#arrowRight');
     this.statsList = document.querySelectorAll('.countries__list li');
 
-    // console.log(this.statsList);
     arrowLeftEl.addEventListener('click', () => {
       this.switchStatsList('left');
       this.switchStatsListTitle();
@@ -145,7 +128,6 @@ export default class App {
     this.worldTypeToggleEl = document.querySelector('#worldTypeToggle');
 
     dateUpdateEl.innerText = this.totalData.updated;
-    // console.log(this.totalData);
     this.updateWorldStats();
 
     this.worldTimeToggleEl.addEventListener('change', () => {
@@ -234,8 +216,6 @@ export default class App {
     const countryCasesMiniEl = document.querySelector('#countryCasesMini');
     const countryDeathsMiniEl = document.querySelector('#countryDeathsMini');
     const countryRecoveredMiniEl = document.querySelector('#countryRecoveredMini');
-
-    // console.log(this.currentCountry);
 
     if (this.countryTimeToggleEl.checked && !this.countryTypeToggleEl.checked) {
       countryCasesEl.innerText = this.currentCountry.todayCases;

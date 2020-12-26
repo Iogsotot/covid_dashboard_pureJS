@@ -1,13 +1,15 @@
 import isoCountries from './ISOCountries';
 
+const urls = {
+  perCountryData: 'https://corona.lmao.ninja/v2/countries?sort=cases',
+  totalData: 'https://corona.lmao.ninja/v2/all',
+  totalTimeline: 'https://disease.sh/v3/covid-19/historical/all?lastdays=all',
+  worldTimeline: 'https://disease.sh/v3/covid-19/historical?lastdays=all',
+};
+
 export default class Stats {
   constructor() {
-    this.urls = {
-      perCountryData: 'https://corona.lmao.ninja/v2/countries?sort=cases',
-      totalData: 'https://corona.lmao.ninja/v2/all',
-      totalTimeline: 'https://disease.sh/v3/covid-19/historical/all?lastdays=all',
-      worldTimeline: 'https://disease.sh/v3/covid-19/historical?lastdays=all',
-    };
+    this.urls = urls;
   }
 
   async getDataFromUrl(url) {
@@ -27,40 +29,6 @@ export default class Stats {
   async getAllCountryStats() {
     const url = this.urls.perCountryData;
     const covidData = await this.getDataFromUrl(url);
-    // const countries = [];
-    // function getCountries() {
-    //   for (let i = 0; i < Object.keys(covidData).length; i += 1) {
-    //     countries[i] = covidData[i].country;
-    //   }
-    //   return countries;
-    // }
-    // const countryIndex = getCountries().indexOf(countryName);
-
-    // const covidDataPerCountries = {
-    //   countries,
-    //   countryISO: covidData[countryIndex].countryInfo.iso2,
-    //   countryName: covidData[countryIndex].country,
-    //   flag: covidData[countryIndex].countryInfo.flag,
-    //   cases: covidData[countryIndex].cases,
-    //   deaths: covidData[countryIndex].deaths,
-    //   recovered: covidData[countryIndex].recovered,
-    //   casesPerOneHundredThousand: Math.round(covidData[countryIndex].casesPerOneMillion / 10),
-    //   deathsPerOneHundredThousand: Math.round(covidData[countryIndex].deathsPerOneMillion / 10),
-    //   recoveredPerOneHundredThousand: Math.round(covidData[countryIndex].recoveredPerOneMillion
-    //     / 10),
-    //   todayCases: covidData[countryIndex].todayCases,
-    //   todayDeaths: covidData[countryIndex].todayDeaths,
-    //   todayRecovered: covidData[countryIndex].todayRecovered,
-    //   todayCasesPerOneHundredThousand: ((covidData[countryIndex].todayCases
-    //     / covidData[countryIndex].population) * 100000).toFixed(3),
-    //   todayDeathsPerOneHundredThousand: ((covidData[countryIndex].todayDeaths
-    //     / covidData[countryIndex].population) * 100000).toFixed(3),
-    //   todayRecoveredPerOneHundredThousand: ((covidData[countryIndex].todayRecovered
-    //     / covidData[countryIndex].population) * 100000).toFixed(3),
-    //   updated: (new Date(covidData[countryIndex].updated)).toDateString(),
-    // };
-    // weight = 128KB
-    // return covidDataPerCountries;
     return covidData;
   }
 

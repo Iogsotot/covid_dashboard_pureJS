@@ -90,11 +90,42 @@ export default class App {
   }
 
   switchStatsListTitle() {
-    const dataCaptionList = ['All cases absolute', 'All active absolute', 'All deaths absolute',
-      'All recovered absolute', 'Today cases absolute', 'Today deaths absolute', 'Today recovered absolute',
-      'All cases per 100k', 'All deaths per 100k', 'All active per 100k', 'All recovered per 100k',
-      'Today cases per 100k', 'Today deaths per 100k', 'Today recovered per 100k'];
-    this.countriesListDataNameEl.innerText = dataCaptionList[this.currentStatsIndex];
+    this.countriesListDataNameEl.innerText = this.getStatsListTitle();
+  }
+
+  getStatsListTitle() {
+    switch (this.currentStatsIndex) {
+      case 0:
+        return 'All cases absolute';
+      case 1:
+        return 'All active absolute';
+      case 2:
+        return 'All deaths absolute';
+      case 3:
+        return 'All recovered absolute';
+      case 4:
+        return 'Today cases absolute';
+      case 5:
+        return 'Today deaths absolute';
+      case 6:
+        return 'Today recovered absolute';
+      case 7:
+        return 'All cases per 100k';
+      case 8:
+        return 'All deaths per 100k';
+      case 9:
+        return 'All active per 100k';
+      case 10:
+        return 'All recovered per 100k';
+      case 11:
+        return 'Today cases per 100k';
+      case 12:
+        return 'Today deaths per 100k';
+      case 13:
+        return 'Today recovered per 100k';
+      default:
+        throw new Error('Missing case');
+    }
   }
 
   switchStatsList(direction) {

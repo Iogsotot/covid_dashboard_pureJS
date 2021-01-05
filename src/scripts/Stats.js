@@ -1,0 +1,206 @@
+import isoCountries from './ISOCountries';
+
+const urls = {
+  perCountryData: 'https://corona.lmao.ninja/v2/countries?sort=cases',
+  totalData: 'https://corona.lmao.ninja/v2/all',
+  totalTimeline: 'https://disease.sh/v3/covid-19/historical/all?lastdays=all',
+  worldTimeline: 'https://disease.sh/v3/covid-19/historical?lastdays=all',
+};
+
+export default class Stats {
+  constructor() {
+    this.urls = urls;
+  }
+
+  async getDataFromUrl(url) {
+    this.null = null;
+    let covidData = this.null;
+    const promise = await fetch(url);
+    if (promise.ok) {
+      covidData = await promise.json();
+    } if (promise.status === 404) {
+      console.log(404);
+      this.showErrorMsg(404);
+    } else {
+      console.log('дай мне минутку...');
+      this.showErrorMsg();
+    }
+    return covidData;
+  }
+
+  async getAllCountryStats() {
+    const url = this.urls.perCountryData;
+    const covidData = await this.getDataFromUrl(url);
+    return covidData;
+  }
+
+  async getTotalStats() {
+    const url = this.urls.totalData;
+    const covidData = await this.getDataFromUrl(url);
+    const TotalCovidData = {
+      total: covidData,
+      active: covidData.active,
+      cases: covidData.cases,
+      deaths: covidData.deaths,
+      recovered: covidData.recovered,
+      casesPerOneHundredThousand: Math.round(covidData.casesPerOneMillion / 10),
+      deathsPerOneHundredThousand: Math.round(covidData.deathsPerOneMillion / 10),
+      recoveredPerOneHundredThousand: Math.round(covidData.recoveredPerOneMillion / 10),
+      activePerOneHundredThousand: Math.round(covidData.activePerOneMillion / 10),
+      todayCases: covidData.todayCases,
+      todayActive: covidData.todayActive,
+      todayDeaths: covidData.todayDeaths,
+      todayRecovered: covidData.todayRecovered,
+      todayCasesPerOneHundredThousand: Math.round((covidData.todayCases
+        / covidData.population) * 100000),
+      todayDeathsPerOneHundredThousand: Math.round((covidData.todayDeaths
+        / covidData.population) * 100000),
+      todayRecoveredPerOneHundredThousand: Math.round((covidData.todayRecovered
+        / covidData.population) * 100000),
+      updated: (new Date(covidData.updated)).toDateString(),
+    };
+    // weight = 553B
+    return TotalCovidData;
+  }
+
+  async getTotalTimeline() {
+    const url = this.urls.totalTimeline;
+    const covidData = await this.getDataFromUrl(url);
+    return covidData;
+  }
+
+  async getWorldTimeline(countryName = null) {
+    const url = this.urls.worldTimeline;
+    const covidData = await this.getDataFromUrl(url);
+
+    const countries = [];
+    function getCountries() {
+      for (let i = 0; i < Object.keys(covidData).length; i += 1) {
+        countries[i] = covidData[i].country;
+      }
+      const result = new Set(countries);
+      return result;
+    }
+
+    let worldTimeline = {
+      covidData,
+      countries: getCountries(),
+    };
+    if (countryName) {
+      const countryIndex = getCountries().indexOf(countryName); // если нет в массиве, то -1
+
+      worldTimeline = {
+        ...worldTimeline,
+        ...{
+          countryName: covidData[countryIndex].country,
+          cases: covidData[countryIndex].timeline.cases,
+          deaths: covidData[countryIndex].timeline.deaths,
+          recovered: covidData[countryIndex].timeline.recovered,
+          fullDataForCountry: covidData[countryIndex],
+        },
+      };
+    }
+    // weight = 3.5 MB
+    return worldTimeline;
+  }
+
+  async prepareDataForMap() {
+    const totalData = await this.prepareTotalDataForMap();
+    const totalTimelineData = await this.prepareTotalTimelineForMap();
+    const worldTimelineData = await this.prepareWorldTimelineForMap();
+    return [totalData, totalTimelineData, worldTimelineData];
+  }
+
+  async prepareTotalDataForMap() {
+    this.totalData = await this.getTotalStats();
+    return this.totalData;
+  }
+
+  async prepareTotalTimelineForMap() {
+    const totalTimeline = await this.getTotalTimeline();
+    const result = [];
+    Object.keys(totalTimeline.cases).forEach((key) => {
+      result.push(
+        {
+          confirmed: totalTimeline.cases[key],
+          recovered: totalTimeline.recovered[key],
+          deaths: totalTimeline.deaths[key],
+          date: key,
+        },
+      );
+    });
+    this.totalTimeline = result;
+    return this.totalTimeline;
+  }
+
+  async prepareWorldTimelineForMap() {
+    const worldTimelineRawData = await this.getWorldTimeline();
+    const countriesWithProvincesCombined = worldTimelineRawData.covidData.reduce((countries, element) => {
+      if (!countries[element.country]) {
+        countries[element.country] = element;
+        Object.keys(element.timeline.cases).forEach((key) => {
+          countries[element.country][key] = {
+            cases: countries[element.country].timeline.cases[key],
+            recovered: countries[element.country].timeline.recovered[key],
+            deaths: countries[element.country].timeline.deaths[key],
+          };
+        });
+        delete countries[element.country].province;
+      } else {
+        Object.keys(element.timeline.cases).forEach((key) => {
+          countries[element.country][key].cases += element.timeline.cases[key];
+          countries[element.country][key].recovered += element.timeline.recovered[key];
+          countries[element.country][key].deaths += element.timeline.deaths[key];
+        });
+      }
+      delete countries[element.country].timeline;
+      delete countries[element.country].country;
+      return countries;
+    }, {});
+
+    const result = {};
+
+    Object.entries(isoCountries).forEach(([country, iso2]) => {
+      if (countriesWithProvincesCombined[country]) {
+        Object.keys(countriesWithProvincesCombined[country]).forEach((key) => {
+          if (!result[key]) {
+            result[key] = {
+              date: key,
+              list: [
+                {
+                  confirmed: countriesWithProvincesCombined[country][key].cases,
+                  deaths: countriesWithProvincesCombined[country][key].deaths,
+                  recovered: countriesWithProvincesCombined[country][key].recovered,
+                  id: iso2,
+                },
+              ],
+            };
+          } else {
+            result[key].list.push(
+              {
+                confirmed: countriesWithProvincesCombined[country][key].cases,
+                deaths: countriesWithProvincesCombined[country][key].deaths,
+                recovered: countriesWithProvincesCombined[country][key].recovered,
+                id: iso2,
+              },
+            );
+          }
+        });
+      }
+    });
+    return Object.values(result);
+  }
+
+  showErrorMsg(errorCode = 0) {
+    this.errorMsgEl = document.querySelector('#errorMsg');
+    this.errorMsgEl.style.display = 'block';
+    if (errorCode === 404) {
+      this.errorMsgEl.innerText = 'Problems with API server. Code 404';
+    }
+    this.errorMsgEl.innerText = 'Give me a minute, please...';
+    setTimeout(() => {
+      this.errorMsgEl.innerText = '';
+      this.errorMsgEl.style.display = 'none';
+    }, 2000);
+  }
+}
